@@ -5,28 +5,22 @@ interface ArticleProps {
 export const ArticleBrief: Function = (props: ArticleProps) => {
   return (
     <div
-      className="bg-white shadow rounded
-    sm:flex sm:space-x-4"
+      className="max-w-sm bg-white shadow rounded
+                  sm:max-w-none sm:flex sm:space-x-4 sm:h-48"
     >
       {/* article image */}
-      <div
-        className="flex-1
-      sm:flex-none"
-      >
-        <img
-          className="rounded-t h-48 w-full object-cover
-          sm:w-48 sm:rounded-none sm:rounded-l"
-          src={props.img}
-          alt="researcher working at a lab bench"
-        />
-      </div>
-
+      <img
+        className="rounded-t h-48 w-full object-cover
+          sm:flex-1 sm:rounded-none sm:rounded-l sm:max-w-xs"
+        src={props.img}
+        alt="researcher working at a lab bench"
+      />
       {/* title and description */}
       <div
         className="flex-1 space-y-1 p-6
-      sm:flex sm:flex-col"
+      sm:flex sm:flex-col sm:p-4 sm:flex-1"
       >
-        <div className="sm:flex-1 space-y-1">
+        <div className="space-y-1">
           <h1 className="capitalize text-lg font-bold leading-6 line-clamp-2 text-gray-800">
             Conducting Research: A Guide to Effective and Efficient Research
           </h1>
