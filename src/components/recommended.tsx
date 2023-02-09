@@ -4,7 +4,7 @@ import { RecommendedTopic } from "./recommendedtopic";
 
 export const Recommended: Function = () => {
   return (
-    <div className="hidden md:block w-72 border-l-2 p-4 pt-8 space-y-6 overflow-scroll">
+    <div className="hidden lg:block w-72 border-l-2 p-4 pt-8 space-y-6 overflow-scroll">
       {/* trending */}
       <div className="border-b-2 pb-6">
         <div className="flex space-x-1 items-center">
