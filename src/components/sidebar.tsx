@@ -1,8 +1,6 @@
 export const SideBar: Function = () => {
-  const iconStrokeWidth: number = 2;
-
   return (
-    <div className="h-full absolute w-24 border-r-2 border-gray-200 flex flex-col">
+    <div className="h-full w-24 border-r-2 border-gray-200 flex flex-col">
       <button className="w-full p-3">
         <svg
           xmlns="http://www.w3.org/2000/svg"
