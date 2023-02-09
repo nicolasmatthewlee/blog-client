@@ -2,7 +2,7 @@ export const SideBar: Function = () => {
   return (
     <div
       className="w-16 h-full border-r-2 border-gray-200 flex flex-col
-    sm:w-24"
+    sm:w-20"
     >
       <button
         className="w-full p-2
@@ -23,7 +23,7 @@ export const SideBar: Function = () => {
         <div className="space-y-6">
           <div
             className="px-2
-          sm:px-6"
+          sm:px-4"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +38,7 @@ export const SideBar: Function = () => {
 
           <div
             className="px-2
-          sm:px-6"
+          sm:px-4"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +56,7 @@ export const SideBar: Function = () => {
 
           <div
             className="px-2
-          sm:px-6"
+          sm:px-4"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +74,7 @@ export const SideBar: Function = () => {
 
           <div
             className="px-2
-          sm:px-6"
+          sm:px-4"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -89,7 +89,7 @@ export const SideBar: Function = () => {
 
           <div
             className="px-2
-          sm:px-6"
+          sm:px-4"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
