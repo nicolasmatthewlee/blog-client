@@ -15,12 +15,13 @@ export const ArticleBrief: Function = (props: ArticleProps) => {
         src={props.img}
         alt="researcher working at a lab bench"
       />
-      {/* title and description */}
+
       <div
-        className="flex-1 space-y-1 p-6
-      sm:flex sm:flex-col sm:p-4 sm:flex-1"
+        className="flex-1 space-y-4 p-6 
+      sm:flex sm:flex-col sm:p-4 sm:space-y-0"
       >
-        <div className="space-y-1">
+        {/* title and description */}
+        <div className="space-y-1 flex-1 pr-4">
           <h1 className="capitalize text-lg font-bold leading-6 line-clamp-2 text-gray-800">
             Conducting Research: A Guide to Effective and Efficient Research
           </h1>
@@ -32,10 +33,7 @@ export const ArticleBrief: Function = (props: ArticleProps) => {
             step in solving problems and making informed decisions.
           </p>
           {/* author */}
-          <div
-            className="flex items-center space-x-2 
-          sm:pt-2"
-          >
+          <div className="flex items-center space-x-2 ">
             <h3 className="font-medium text-gray-800">
               <span className="text-gray-500 font-normal">by</span> John Doe
             </h3>
@@ -51,7 +49,7 @@ export const ArticleBrief: Function = (props: ArticleProps) => {
             viewBox="0 0 24 24"
             strokeWidth={2.5}
             stroke="currentColor"
-            className="w-6 h-6 stroke-gray-400"
+            className="w-6 h-6 stroke-gray-300"
           >
             <path
               strokeLinecap="round"
