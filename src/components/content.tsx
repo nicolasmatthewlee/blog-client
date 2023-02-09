@@ -3,7 +3,7 @@ import { ArticleBrief } from "./articlebrief";
 import IMG_1 from "../assets/1.jpg";
 import IMG_2 from "../assets/2.jpg";
 import IMG_3 from "../assets/3.jpg";
-import IMG_4 from "../assets/4.jpg";
+import IMG_4 from "../assets/7.jpg";
 import IMG_5 from "../assets/5.jpg";
 import IMG_6 from "../assets/6.jpg";
 

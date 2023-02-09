@@ -1,6 +1,9 @@
 export const Header: Function = () => {
   return (
-    <div className="h-16 flex border-b-2 border-gray-200">
+    <div
+      className="h-16 flex border-b-2 border-gray-200
+    sm:h-20"
+    >
       <div className="hidden sm:flex flex-1 items-center p-6 relative">
         <label className="absolute left-9" htmlFor="search">
           <svg
@@ -26,7 +29,7 @@ export const Header: Function = () => {
           placeholder="Search..."
         />
       </div>
-      <div className="flex-1 flex px-4 space-x-1 items-center justify-end">
+      <div className="flex-1 flex px-4 space-x-2 items-center justify-end">
         <div className="flex items-center">
           <h3 className="text-2xl text-center font-medium text-gray-600">
             John Doe
@@ -36,7 +39,8 @@ export const Header: Function = () => {
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          className="h-10 fill-slate-500"
+          className="h-10 fill-slate-400
+                      sm:h-14"
         >
           <path
             fillRule="evenodd"
