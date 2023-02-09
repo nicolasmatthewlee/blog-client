@@ -20,7 +20,7 @@ export const Recommended: Function = () => {
               clipRule="evenodd"
             />
           </svg>
-          <h3 className="font-medium text-gray-700 text-sm">Trending</h3>
+          <h3 className="font-medium text-gray-800 text-sm">Trending</h3>
         </div>
         <div className="mt-4 space-y-4">
           <TrendingArticle />

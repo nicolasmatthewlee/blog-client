@@ -1,12 +1,12 @@
 export const TrendingUser: Function = () => {
   return (
-    <div className="flex w-full items-center">
-      <div className="flex-1 flex space-x-1 items-center">
+    <div className="flex w-full items-center space-x-2">
+      <div className="flex-1 flex space-x-1 items-center overflow-hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          className="w-8 h-8 fill-gray-500"
+          className="w-8 h-8 fill-gray-400"
         >
           <path
             fillRule="evenodd"
@@ -14,9 +14,9 @@ export const TrendingUser: Function = () => {
             clipRule="evenodd"
           />
         </svg>
-        <p className="text-gray-500 font-medium">John Doe</p>
+        <p className="text-gray-800 font-medium truncate flex-1">John Doe</p>
       </div>
-      <button className="border-2 border-gray-200 px-4 py-0.5 rounded-full text-sm font-medium text-gray-500">
+      <button className="border-2 border-gray-200 px-4 py-0.5 rounded-full text-sm font-semibold text-gray-800">
         Follow
       </button>
     </div>
