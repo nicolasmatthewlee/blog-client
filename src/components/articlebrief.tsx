@@ -1,12 +1,11 @@
 interface ArticleProps {
   img: string;
-  authorImg: string;
 }
 
 export const ArticleBrief: Function = (props: ArticleProps) => {
   return (
     <div
-      className="bg-white shadow-lg p-4 rounded
+      className="bg-white shadow rounded
     sm:flex sm:space-x-4"
     >
       {/* article image */}
@@ -15,8 +14,8 @@ export const ArticleBrief: Function = (props: ArticleProps) => {
       sm:flex-none"
       >
         <img
-          className="rounded h-48 w-full object-cover
-          sm:w-48"
+          className="rounded-t h-48 w-full object-cover
+          sm:w-48 sm:rounded-none sm:rounded-l"
           src={props.img}
           alt="researcher working at a lab bench"
         />
@@ -24,17 +23,14 @@ export const ArticleBrief: Function = (props: ArticleProps) => {
 
       {/* title and description */}
       <div
-        className="flex-1 space-y-1
-      sm:flex flex-col"
+        className="flex-1 space-y-1 p-6
+      sm:flex sm:flex-col"
       >
         <div className="sm:flex-1 space-y-1">
-          <h1
-            className="capitalize text-lg font-semibold mt-4 leading-6 line-clamp-2
-            sm:mt-0"
-          >
+          <h1 className="capitalize text-lg font-bold leading-6 line-clamp-2 text-gray-800">
             Conducting Research: A Guide to Effective and Efficient Research
           </h1>
-          <p className="line-clamp-3 leading-5 text-gray-500">
+          <p className="line-clamp-2 leading-5 text-gray-500 text">
             Research is a critical component in many fields, providing a
             systematic and thorough method for exploring, discovering, and
             understanding new information. Whether it's for academic,
@@ -46,20 +42,22 @@ export const ArticleBrief: Function = (props: ArticleProps) => {
             className="flex items-center space-x-2 
           sm:pt-2"
           >
-            <h3 className="font-medium text-gray-500">John Doe</h3>
+            <h3 className="font-medium text-gray-800">
+              <span className="text-gray-500 font-normal">by</span> John Doe
+            </h3>
           </div>
         </div>
 
         {/* time posted, save */}
         <div className="flex">
-          <p className="flex-1 text-gray-500">32m ago</p>
+          <p className="flex-1 text-gray-400">32m ago</p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            strokeWidth={2}
+            strokeWidth={2.5}
             stroke="currentColor"
-            className="w-6 h-6 stroke-gray-500"
+            className="w-6 h-6 stroke-gray-800"
           >
             <path
               strokeLinecap="round"
