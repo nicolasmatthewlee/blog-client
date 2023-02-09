@@ -1,7 +1,7 @@
 export const TrendingArticle: Function = () => {
   return (
     <div>
-      <h3 className="font-medium text-gray-800 truncate">
+      <h3 className="font-semibold text-gray-800 truncate text-sm">
         Conducting Research: A Guide to Effective and Efficient Research
       </h3>
       <div className="flex space-x-1 text-sm items-center">

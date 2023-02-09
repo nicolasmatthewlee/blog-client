@@ -14,7 +14,9 @@ export const TrendingUser: Function = () => {
             clipRule="evenodd"
           />
         </svg>
-        <p className="text-gray-800 font-medium truncate flex-1">John Doe</p>
+        <p className="text-gray-800 font-medium truncate flex-1 text-sm">
+          John Doe
+        </p>
       </div>
       <button className="border-2 border-gray-200 px-4 py-0.5 rounded-full text-sm font-semibold text-gray-800">
         Follow
