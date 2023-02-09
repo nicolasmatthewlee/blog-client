@@ -1,6 +1,6 @@
 export const Header: Function = () => {
   return (
-    <div className="h-24 flex flex-1 border-b-2 border-gray-200 px-12">
+    <div className="h-24 flex border-b-2 border-gray-200 px-12">
       <div className="hidden sm:flex flex-1 items-center p-6 relative">
         <label className="absolute left-9" htmlFor="search">
           <svg
