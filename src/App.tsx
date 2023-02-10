@@ -1,12 +1,12 @@
 import { Routes, Route } from "react-router-dom";
-import { Article } from "./components/article";
+import { ArticlePage } from "./components/articlepage";
 import { Home } from "./components/home";
 
 export const App: Function = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/article" element={<Article />} />
+      <Route path="/article" element={<ArticlePage />} />
     </Routes>
   );
 };
