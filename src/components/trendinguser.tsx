@@ -1,3 +1,5 @@
+import { FollowButton } from "./followbutton";
+
 export const TrendingUser: Function = () => {
   return (
     <div className="flex w-full items-center space-x-2">
@@ -18,9 +20,7 @@ export const TrendingUser: Function = () => {
           John Doe
         </p>
       </div>
-      <button className="border-2 border-gray-200 px-4 py-0.5 rounded-full text-sm font-semibold text-gray-800">
-        Follow
-      </button>
+      <FollowButton />
     </div>
   );
 };

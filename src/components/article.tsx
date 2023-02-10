@@ -1,5 +1,6 @@
 import IMG_8 from "../assets/8.jpg";
 import articleData from "../assets/article.json";
+import { FollowButton } from "./followbutton";
 
 const uniqid = require("uniqid");
 
@@ -51,22 +52,27 @@ export const Article: Function = () => {
   return (
     <div className="overflow-scroll p-4 flex-1 bg-gray-100">
       <div className="flex justify-center">
-        <div className="bg-white p-6 rounded-lg space-y-2 shadow max-w-2xl">
+        <div
+          className="bg-white p-6 rounded-lg space-y-2 shadow max-w-2xl
+          sm:p-12
+          lg:px-16"
+        >
           <div className="flex">
-            <h1 className="text-3xl text-gray-800 font-bold">
+            <h1 className="text-2xl text-gray-800 font-bold">
               Unlocking the Secrets of Cows: A Fascinating Look into Bovine
               Behavior and Biology
             </h1>
           </div>
 
-          <div className="flex">
-            <h2 className="text-lg font-medium text-gray-500">
-              <span className="font-normal">by </span>John Doe
-            </h2>
-            {/* <button>Follow</button> */}
+          <div className="flex space-x-2 items-center pb-2">
+            <div>
+              <h2 className="text-md font-medium text-gray-500">
+                <span className="font-normal">by </span>John Doe
+              </h2>
+              <p className="text-gray-400">February 9, 2022</p>
+            </div>
+            <FollowButton />
           </div>
-
-          <p className="text-gray-400 pb-2">February 9, 2022</p>
 
           <img
             className="h-72 w-full object-cover rounded-sm"
