@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 interface ArticleProps {
   img: string;
 }
@@ -22,9 +24,15 @@ export const ArticleBrief: Function = (props: ArticleProps) => {
       >
         {/* title and description */}
         <div className="space-y-1 flex-1 pr-4">
-          <h1 className="capitalize text-lg font-bold leading-6 line-clamp-2 text-gray-800">
-            Conducting Research: A Guide to Effective and Efficient Research
-          </h1>
+          <Link to="/article">
+            <h1
+              className="capitalize text-lg font-bold leading-6 line-clamp-2 text-gray-800
+            hover:underline"
+            >
+              Conducting Research: A Guide to Effective and Efficient Research
+            </h1>
+          </Link>
+
           <p className="line-clamp-2 leading-5 text-gray-500 text">
             Research is a critical component in many fields, providing a
             systematic and thorough method for exploring, discovering, and
