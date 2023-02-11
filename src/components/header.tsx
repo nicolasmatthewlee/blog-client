@@ -1,34 +1,45 @@
-export const Header: Function = () => {
+interface HeaderType {
+  type: null | "write";
+}
+
+export const Header: Function = (props: HeaderType) => {
   return (
     <div
       className="h-16 flex border-b-2 border-gray-200
     sm:h-20"
     >
-      <div className="hidden sm:flex flex-1 items-center p-6 relative">
-        <label className="absolute left-9" htmlFor="search">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-            className="w-6 h-6  stroke-gray-400"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-            />
-          </svg>
-        </label>
+      {props.type === "write" ? (
+        <div className="items-center flex px-6">
+          <h1 className="text-4xl font-bold text-gray-800">Write</h1>
+        </div>
+      ) : (
+        <div className="hidden sm:flex flex-1 items-center p-6 relative">
+          <label className="absolute left-9" htmlFor="search">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="w-6 h-6  stroke-gray-400"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg>
+          </label>
 
-        <input
-          className="pl-10 w-full h-10 border-2 max-w-sm rounded-full"
-          type="text"
-          id="search"
-          placeholder="Search..."
-        />
-      </div>
+          <input
+            className="pl-10 w-full h-10 border-2 max-w-sm rounded-full"
+            type="text"
+            id="search"
+            placeholder="Search..."
+          />
+        </div>
+      )}
+
       <div className="flex-1 flex px-4 space-x-2 items-center justify-end">
         <div className="flex items-center">
           <h3 className="text-2xl text-center font-medium text-gray-600">

@@ -1,7 +1,6 @@
 import { SideBar } from "./sidebar";
 import { Header } from "./header";
 import { Article } from "./article";
-import { Recommended } from "./recommended";
 
 export const ArticlePage: Function = () => {
   return (
