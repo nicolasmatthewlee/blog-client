@@ -1,8 +1,9 @@
-import { SideBar } from "./sidebar";
-import { Header } from "./header";
 import { Link } from "react-router-dom";
 
-export const Write: Function = () => {
+import { SideBar } from "./sidebar";
+import { Header } from "./header";
+
+export const NotificationsPage: Function = () => {
   return (
     <div className="absolute h-full w-full flex">
       <SideBar />
@@ -10,7 +11,7 @@ export const Write: Function = () => {
         <Header />
         <div className="flex-1 flex overflow-hidden bg-gray-100 p-4 justify-center">
           <div className="bg-white rounded-lg p-8 flex-1 shadow max-w-xl">
-            <h1 className="text-4xl font-bold text-gray-800">Write</h1>
+            <h1 className="text-4xl font-bold text-gray-800">Notifications</h1>
             <h2 className="text-3xl font-medium text-gray-400">
               (coming soon!)
             </h2>

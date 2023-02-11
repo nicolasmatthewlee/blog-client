@@ -11,7 +11,6 @@ export const ArticlePage: Function = () => {
         <Header />
         <div className="flex-1 flex overflow-hidden">
           <Article />
-          <Recommended />
         </div>
       </div>
     </div>
