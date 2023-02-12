@@ -7,7 +7,7 @@ export const Saved: Function = () => {
     <div className="absolute h-full w-full flex">
       <SideBar />
       <div className="flex-1 flex flex-col">
-        <Header type="saved" />
+        <Header text="Saved" />
         <div className="flex-1 flex overflow-hidden ">
           <Content />
         </div>
