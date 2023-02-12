@@ -238,7 +238,7 @@ export const ArticleForm: Function = () => {
 
             <button
               className="border-2 font-semibold text-sm py-1 rounded-lg text-gray-400 mt-2
-            hover:bg-emerald-500 hover:border-emerald-500 hover:text-white"
+            hover:bg-emerald-500 hover:border-emerald-500 hover:text-white active:border-emerald-600 active:bg-emerald-600"
             >
               Publish
             </button>
