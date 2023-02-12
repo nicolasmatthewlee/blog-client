@@ -147,11 +147,19 @@ export const ArticleForm: Function = () => {
           ) : (
             <div className="container h-72 w-full rounded-sm border-2 border-dashed relative">
               <div className="absolute w-full h-full top-0 flex flex-col items-center justify-center">
+                <input
+                  className="opacity-0 absolute top-0 w-full h-full
+                hover:cursor-pointer peer"
+                  type="file"
+                  accept="image/*"
+                  onChange={(event) => saveImage(event.target.files)}
+                />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  className="w-20 h-20 stroke-gray-200 fill-gray-200"
+                  className="w-8 h-8 stroke-gray-200 fill-gray-200
+                  peer-hover:stroke-gray-400 peer-hover:fill-gray-400 peer-active:fill-gray-500 peer-active:stroke-gray-500"
                 >
                   <path
                     fillRule="evenodd"
@@ -159,16 +167,12 @@ export const ArticleForm: Function = () => {
                     clipRule="evenodd"
                   />
                 </svg>
-                <h3 className="font-semibold text-lg text-gray-300 ">
+                <h3
+                  className="font-semibold text-lg text-gray-300 
+                peer-hover:text-gray-400 peer-active:text-gray-500"
+                >
                   Browse file to upload
                 </h3>
-                <input
-                  className="opacity-0 absolute top-0 w-full h-full
-                hover:cursor-pointer"
-                  type="file"
-                  accept="image/*"
-                  onChange={(event) => saveImage(event.target.files)}
-                />
               </div>
             </div>
           )}
@@ -234,7 +238,7 @@ export const ArticleForm: Function = () => {
 
             <button
               className="border-2 font-semibold text-sm py-1 rounded-lg text-gray-400 mt-2
-            hover:bg-emerald-500 hover:border-emerald-600 hover:text-white"
+            hover:bg-emerald-500 hover:border-emerald-500 hover:text-white"
             >
               Publish
             </button>
