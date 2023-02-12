@@ -1,5 +1,5 @@
 interface HeaderType {
-  type: null | "write";
+  type: null | "write" | "saved";
 }
 
 export const Header: Function = (props: HeaderType) => {
@@ -11,6 +11,10 @@ export const Header: Function = (props: HeaderType) => {
       {props.type === "write" ? (
         <div className="items-center flex px-6">
           <h1 className="text-4xl font-bold text-gray-800">Write</h1>
+        </div>
+      ) : props.type === "saved" ? (
+        <div className="items-center flex px-6">
+          <h1 className="text-4xl font-bold text-gray-800">Saved</h1>
         </div>
       ) : (
         <div className="hidden sm:flex flex-1 items-center p-6 relative">
