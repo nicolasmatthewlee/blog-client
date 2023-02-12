@@ -10,6 +10,20 @@ interface ContentItem {
 
 export const ArticleForm: Function = () => {
   const [content, setContent] = useState<ContentItem[]>([]);
+  const [image, setImage] = useState<string>();
+
+  const saveImage: Function = (files: File[] | null) => {
+    if (files === null) return;
+    const file = files[0];
+
+    const reader = new FileReader();
+    // onload is called when the read operation is complete
+    reader.onload = (e) => {
+      if (e.target && typeof e.target.result === "string")
+        setImage(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  };
 
   const deleteContent: Function = (id: string) => {
     setContent(content.filter((e) => e.id !== id));
@@ -22,7 +36,6 @@ export const ArticleForm: Function = () => {
         else return e;
       })
     );
-    console.log(content);
   };
 
   const displayContent: Function = (e: ContentItem) => {
@@ -119,30 +132,46 @@ export const ArticleForm: Function = () => {
             </div>
           </div>
 
-          <div className="container h-72 w-full object-cover rounded-sm border-2 border-dashed relative">
-            <div className="absolute w-full h-full top-0 flex flex-col items-center justify-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-20 h-20 stroke-gray-200 fill-gray-200"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M11.47 2.47a.75.75 0 011.06 0l4.5 4.5a.75.75 0 01-1.06 1.06l-3.22-3.22V16.5a.75.75 0 01-1.5 0V4.81L8.03 8.03a.75.75 0 01-1.06-1.06l4.5-4.5zM3 15.75a.75.75 0 01.75.75v2.25a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5V16.5a.75.75 0 011.5 0v2.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V16.5a.75.75 0 01.75-.75z"
-                  clipRule="evenodd"
+          {/* file upload */}
+
+          {image ? (
+            <div className="container h-72 w-full rounded-sm border-2 border-dashed relative">
+              <div className="p-2 h-72">
+                <img
+                  className="w-full h-full object-cover rounded-lg"
+                  src={image}
+                  alt=""
                 />
-              </svg>
-              <h3 className="font-semibold text-lg text-gray-300 ">
-                Browse file to upload
-              </h3>
-              <input
-                className="opacity-0 absolute top-0 w-full h-full
-                hover:cursor-pointer"
-                type="file"
-              />
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="container h-72 w-full rounded-sm border-2 border-dashed relative">
+              <div className="absolute w-full h-full top-0 flex flex-col items-center justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-20 h-20 stroke-gray-200 fill-gray-200"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M11.47 2.47a.75.75 0 011.06 0l4.5 4.5a.75.75 0 01-1.06 1.06l-3.22-3.22V16.5a.75.75 0 01-1.5 0V4.81L8.03 8.03a.75.75 0 01-1.06-1.06l4.5-4.5zM3 15.75a.75.75 0 01.75.75v2.25a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5V16.5a.75.75 0 011.5 0v2.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V16.5a.75.75 0 01.75-.75z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <h3 className="font-semibold text-lg text-gray-300 ">
+                  Browse file to upload
+                </h3>
+                <input
+                  className="opacity-0 absolute top-0 w-full h-full
+                hover:cursor-pointer"
+                  type="file"
+                  accept="image/*"
+                  onChange={(event) => saveImage(event.target.files)}
+                />
+              </div>
+            </div>
+          )}
 
           <input
             className="pb-2 text-sm text-gray-500 border-2 border-dashed flex w-full align-middle pt-2"
