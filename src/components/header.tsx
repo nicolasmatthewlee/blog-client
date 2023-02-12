@@ -5,11 +5,11 @@ interface HeaderType {
 export const Header: Function = (props: HeaderType) => {
   return (
     <div
-      className="h-16 flex border-b-2 border-gray-200
+      className="h-16 flex border-b-2 border-gray-200 min-w-0
     sm:h-20"
     >
       {props.text !== undefined ? (
-        <div className="items-center flex px-6">
+        <div className="items-center flex-1 pl-6 pr-4 flex">
           <h1 className="text-4xl font-medium text-gray-400">{props.text}</h1>
         </div>
       ) : (
@@ -40,9 +40,9 @@ export const Header: Function = (props: HeaderType) => {
         </div>
       )}
 
-      <div className="flex-1 flex px-4 space-x-2 items-center justify-end">
-        <div className="flex items-center">
-          <h3 className="text-2xl text-center font-medium text-gray-600">
+      <div className="flex-1 flex pr-4 space-x-2 items-center justify-end min-w-0">
+        <div className="flex items-center min-w-0">
+          <h3 className="text-2xl text-center font-medium text-gray-600 truncate min-w-0">
             John Doe
           </h3>
         </div>
@@ -51,7 +51,7 @@ export const Header: Function = (props: HeaderType) => {
           viewBox="0 0 24 24"
           fill="currentColor"
           className="h-10 fill-slate-400
-                      sm:h-14"
+                      sm:h-14 flex-shrink-0"
         >
           <path
             fillRule="evenodd"

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export const SideBar: Function = () => {
   return (
     <div
-      className="w-16 h-full border-r-2 border-gray-200 flex flex-col
+      className="flex-shrink-0 w-16 h-full border-r-2 border-gray-200 flex flex-col
     sm:w-20"
     >
       <Link to="/">
