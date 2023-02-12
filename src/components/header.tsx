@@ -10,7 +10,7 @@ export const Header: Function = (props: HeaderType) => {
     >
       {props.text !== undefined ? (
         <div className="items-center flex px-6">
-          <h1 className="text-4xl font-bold text-gray-800">{props.text}</h1>
+          <h1 className="text-4xl font-medium text-gray-400">{props.text}</h1>
         </div>
       ) : (
         <div className="hidden sm:flex flex-1 items-center p-6 relative">
