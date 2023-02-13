@@ -1,5 +1,6 @@
 import { SideBar } from "./sidebar";
 import { Header } from "./header";
+import { Notification } from "./notification";
 
 export const NotificationsPage: Function = () => {
   return (
@@ -7,12 +8,11 @@ export const NotificationsPage: Function = () => {
       <SideBar />
       <div className="flex-1 flex flex-col min-w-0">
         <Header text="Notifications" />
-        <div className="flex-1 flex overflow-hidden bg-gray-100 p-4 justify-center items-start">
-          <div
-            className="bg-white p-6 rounded-lg space-y-2 shadow max-w-2xl w-full
-          sm:p-12
-          lg:px-16"
-          ></div>
+        <div className="flex-1 flex flex-col overflow-hidden bg-gray-100 p-4 justify-start items-center space-y-4">
+          <Notification />
+          <Notification />
+          <Notification />
+          <Notification />
         </div>
       </div>
     </div>
