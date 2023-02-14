@@ -11,7 +11,7 @@ export const Home: Function = () => {
         <Header />
         <div className="flex-1 flex overflow-hidden">
           <Content />
-          <Recommended />
+          {/* <Recommended /> */}
         </div>
       </div>
     </div>
