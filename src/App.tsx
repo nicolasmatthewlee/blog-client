@@ -7,6 +7,7 @@ import { Write } from "./components/write";
 import { NotificationsPage } from "./components/notificationspage";
 import { Signin } from "./components/signin";
 import { Signup } from "./components/signup";
+import { NotFound } from "./components/notfound";
 
 export const App: Function = () => {
   return (
@@ -19,6 +20,7 @@ export const App: Function = () => {
       <Route path="/settings" element={<Settings />} />
       <Route path="/signin" element={<Signin />} />
       <Route path="signup" element={<Signup />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
