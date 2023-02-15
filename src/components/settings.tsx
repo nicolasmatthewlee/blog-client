@@ -1,4 +1,14 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 export const Settings: Function = () => {
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState<null>(null);
+  useEffect(() => {
+    if (user === null) navigate("/signin");
+  }, []);
+
   return (
     <div
       className="bg-white rounded-lg p-6 shadow max-w-2xl w-100 flex flex-1 flex-col

@@ -6,14 +6,18 @@ import { Content } from "./content";
 import { Notifications } from "./notifications";
 import { Article } from "./article";
 
+import { useState } from "react";
+
 interface Props {
   type: "write" | "settings" | "saved" | "notifications" | "home" | "article";
 }
 
 export const PageLayout = (props: Props) => {
+  const [user, setUser] = useState<null>(null);
+
   return (
     <div className="absolute h-full w-full flex">
-      <SideBar />
+      {user ? <SideBar /> : null}
       <div className="flex-1 flex flex-col">
         <Header text={props.type} />
         <div className="flex-1 flex overflow-scroll bg-gray-100 justify-center items-start p-4">
@@ -22,7 +26,7 @@ export const PageLayout = (props: Props) => {
           ) : props.type === "settings" ? (
             <Settings />
           ) : props.type === "saved" ? (
-            <Content />
+            <Content type="saved" />
           ) : props.type === "notifications" ? (
             <Notifications />
           ) : props.type === "home" ? (

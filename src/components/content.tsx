@@ -1,5 +1,7 @@
-import { ArticleBrief } from "./articlebrief";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+import { ArticleBrief } from "./articlebrief";
 import IMG_1 from "../assets/1.jpg";
 import IMG_2 from "../assets/2.jpg";
 import IMG_3 from "../assets/3.jpg";
@@ -12,7 +14,20 @@ import IMG_9 from "../assets/9.jpg";
 import IMG_10 from "../assets/10.jpg";
 import IMG_11 from "../assets/11.jpg";
 
-export const Content: Function = () => {
+interface Props {
+  type: string;
+}
+
+export const Content: Function = (props: Props) => {
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState<null>(null);
+  useEffect(() => {
+    if (props.type === "saved") {
+      if (user === null) navigate("/signin");
+    }
+  }, []);
+
   return (
     <div className="xl:columns-2 space-y-4">
       <ArticleBrief img={IMG_1} />

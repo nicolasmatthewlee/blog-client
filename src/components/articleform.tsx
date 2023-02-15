@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const uniqid = require("uniqid");
 
@@ -9,6 +10,13 @@ interface ContentItem {
 }
 
 export const ArticleForm: Function = () => {
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState<null>(null);
+  useEffect(() => {
+    if (user === null) navigate("/signin");
+  }, []);
+
   const [content, setContent] = useState<ContentItem[]>([]);
   const [image, setImage] = useState<string>();
 
