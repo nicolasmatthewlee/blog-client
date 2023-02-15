@@ -14,23 +14,18 @@ import IMG_11 from "../assets/11.jpg";
 
 export const Content: Function = () => {
   return (
-    <div
-      className="flex-1 bg-gray-100 overflow-scroll 
-    flex flex-col items-center"
-    >
-      <div className="xl:columns-2 space-y-4">
-        <ArticleBrief img={IMG_1} />
-        <ArticleBrief img={IMG_2} />
-        <ArticleBrief img={IMG_3} />
-        <ArticleBrief img={IMG_4} />
-        <ArticleBrief img={IMG_5} />
-        <ArticleBrief img={IMG_6} />
-        <ArticleBrief img={IMG_7} />
-        <ArticleBrief img={IMG_8} />
-        <ArticleBrief img={IMG_9} />
-        <ArticleBrief img={IMG_10} />
-        <ArticleBrief img={IMG_11} />
-      </div>
+    <div className="xl:columns-2 space-y-4">
+      <ArticleBrief img={IMG_1} />
+      <ArticleBrief img={IMG_2} />
+      <ArticleBrief img={IMG_3} />
+      <ArticleBrief img={IMG_4} />
+      <ArticleBrief img={IMG_5} />
+      <ArticleBrief img={IMG_6} />
+      <ArticleBrief img={IMG_7} />
+      <ArticleBrief img={IMG_8} />
+      <ArticleBrief img={IMG_9} />
+      <ArticleBrief img={IMG_10} />
+      <ArticleBrief img={IMG_11} />
     </div>
   );
 };
