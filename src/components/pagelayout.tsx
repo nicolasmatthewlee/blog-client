@@ -3,10 +3,11 @@ import { Header } from "./header";
 import { ArticleForm } from "./articleform";
 import { Settings } from "./settings";
 import { Content } from "./content";
-import { Notifications } from "./Notifications";
+import { Notifications } from "./notifications";
+import { Article } from "./article";
 
 interface Props {
-  type: "write" | "settings" | "saved" | "notifications" | "home";
+  type: "write" | "settings" | "saved" | "notifications" | "home" | "article";
 }
 
 export const PageLayout = (props: Props) => {
@@ -26,6 +27,8 @@ export const PageLayout = (props: Props) => {
             <Notifications />
           ) : props.type === "home" ? (
             <Content />
+          ) : props.type === "article" ? (
+            <Article />
           ) : null}
         </div>
       </div>
