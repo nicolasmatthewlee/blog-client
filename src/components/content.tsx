@@ -15,7 +15,7 @@ import IMG_11 from "../assets/11.jpg";
 export const Content: Function = () => {
   return (
     <div
-      className="flex-1 p-4  bg-gray-100 overflow-scroll 
+      className="flex-1 bg-gray-100 overflow-scroll 
     flex flex-col items-center"
     >
       <div className="xl:columns-2 space-y-4">
