@@ -68,7 +68,11 @@ export const Header: Function = (props: HeaderType) => {
       ) : (
         <div className="flex-1 flex pr-4 space-x-2 items-center justify-end min-w-0">
           <Link to="/signin">
-            <button className="border-2 px-4 py-1 rounded-lg font-medium text-gray-500">
+            <button
+              className="px-4 py-1 rounded-lg font-medium text-gray-500
+            hover:underline
+            active:text-gray-800"
+            >
               Sign in
             </button>
           </Link>
