@@ -18,6 +18,16 @@ interface Props {
   type: string;
 }
 
+interface Article {
+  _id: string;
+  title: string;
+  textBrief: string;
+  author: string;
+  created: Date;
+  image: string;
+  imageAlt: string;
+}
+
 export const Content: Function = (props: Props) => {
   const navigate = useNavigate();
 
@@ -28,19 +38,44 @@ export const Content: Function = (props: Props) => {
     }
   }, []);
 
+  const [articles, setArticles] = useState<Article[]>([]);
+  useEffect(() => {
+    const getArticles = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/articles");
+        const json = await response.json();
+        setArticles(json);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getArticles();
+  }, []);
+
   return (
     <div className="xl:columns-2 space-y-4">
-      <ArticleBrief img={IMG_1} />
-      <ArticleBrief img={IMG_2} />
-      <ArticleBrief img={IMG_3} />
-      <ArticleBrief img={IMG_4} />
-      <ArticleBrief img={IMG_5} />
-      <ArticleBrief img={IMG_6} />
-      <ArticleBrief img={IMG_7} />
-      <ArticleBrief img={IMG_8} />
-      <ArticleBrief img={IMG_9} />
-      <ArticleBrief img={IMG_10} />
-      <ArticleBrief img={IMG_11} />
+      {articles.map((a) => (
+        <ArticleBrief
+          key={a._id}
+          image={a.image}
+          imageAlt={a.imageAlt}
+          title={a.title}
+          textBrief={a.textBrief}
+          author={a.author}
+          created={a.created}
+        />
+      ))}
+      {/* <ArticleBrief image={IMG_1} />
+      <ArticleBrief image={IMG_2} />
+      <ArticleBrief image={IMG_3} />
+      <ArticleBrief image={IMG_4} />
+      <ArticleBrief image={IMG_5} />
+      <ArticleBrief image={IMG_6} />
+      <ArticleBrief image={IMG_7} />
+      <ArticleBrief image={IMG_8} />
+      <ArticleBrief image={IMG_9} />
+      <ArticleBrief image={IMG_10} />
+      <ArticleBrief image={IMG_11} /> */}
     </div>
   );
 };

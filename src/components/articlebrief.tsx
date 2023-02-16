@@ -1,10 +1,61 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Buffer } from "buffer";
 
-interface ArticleProps {
-  img: string;
+interface Props {
+  title: string;
+  textBrief: string;
+  author: string;
+  created: string;
+  image: Buffer;
+  imageAlt: string;
 }
 
-export const ArticleBrief: Function = (props: ArticleProps) => {
+export const ArticleBrief: Function = (props: Props) => {
+  const [img, setImg] = useState<string | undefined>(undefined);
+
+  const convertBufferToImage = () => {
+    setImg(
+      "data:image/png;base64," + Buffer.from(props.image).toString("base64")
+    );
+  };
+  useEffect(convertBufferToImage, []);
+
+  const formatTimeSince = (milliseconds: number) => {
+    var remaining = milliseconds;
+
+    const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
+    remaining %= 1000 * 60 * 60 * 24;
+
+    const hours = Math.floor(remaining / (1000 * 60 * 60));
+    remaining %= 1000 * 60 * 60;
+
+    const minutes = Math.floor(remaining / (1000 * 60));
+    remaining %= 1000 * 60;
+
+    const seconds = Math.floor(remaining / 1000);
+
+    if (days) {
+      if (days === 1) return "1 day";
+      else return days + " days";
+    } else if (hours) {
+      if (hours === 1) return "1 hour";
+      else return hours + " hours";
+    } else if (minutes) {
+      if (minutes === 1) return "1 minute";
+      else return minutes + " minutes";
+    } else {
+      if (seconds === 0) return "now";
+      if (seconds === 1) return "1 second";
+      else return seconds + " seconds";
+    }
+  };
+
+  const timeSince = (datetime: string) => {
+    const now: Date = new Date();
+    return formatTimeSince(now.getTime() - Date.parse(datetime));
+  };
+
   return (
     <div
       className="max-w-sm bg-white shadow rounded
@@ -14,8 +65,8 @@ export const ArticleBrief: Function = (props: ArticleProps) => {
       <img
         className="rounded-t h-48 w-full object-cover
           sm:flex-1 sm:rounded-none sm:rounded-l sm:max-w-xs"
-        src={props.img}
-        alt="researcher working at a lab bench"
+        src={img}
+        alt={props.imageAlt}
       />
 
       <div
@@ -29,28 +80,25 @@ export const ArticleBrief: Function = (props: ArticleProps) => {
               className="capitalize text-lg font-bold leading-6 line-clamp-2 text-gray-800
             hover:underline"
             >
-              Conducting Research: A Guide to Effective and Efficient Research
+              {props.title}
             </h1>
           </Link>
 
           <p className="line-clamp-2 leading-5 text-gray-500 text">
-            Research is a critical component in many fields, providing a
-            systematic and thorough method for exploring, discovering, and
-            understanding new information. Whether it's for academic,
-            scientific, or commercial purposes, conducting research is a crucial
-            step in solving problems and making informed decisions.
+            {props.textBrief}
           </p>
           {/* author */}
           <div className="flex items-center space-x-2 ">
             <h3 className="font-medium text-gray-800">
-              <span className="text-gray-500 font-normal">by</span> John Doe
+              <span className="text-gray-500 font-normal">by</span>{" "}
+              {props.author}
             </h3>
           </div>
         </div>
 
         {/* time posted, save */}
         <div className="flex">
-          <p className="flex-1 text-gray-400">32m ago</p>
+          <p className="flex-1 text-gray-400">{timeSince(props.created)} ago</p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
