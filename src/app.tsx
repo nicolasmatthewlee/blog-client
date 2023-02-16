@@ -7,7 +7,10 @@ import { PageLayout } from "./components/pagelayout";
 export const App: Function = () => {
   return (
     <Routes>
-      <Route path="/article" element={<PageLayout type="article" />} />
+      <Route
+        path="/articles/:articleId"
+        element={<PageLayout type="article" />}
+      />
       <Route path="/" element={<PageLayout type="home" />} />
       <Route
         path="/notifications"

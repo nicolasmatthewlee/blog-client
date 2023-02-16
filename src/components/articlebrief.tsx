@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Buffer } from "buffer";
 
 interface Props {
+  id: string;
   title: string;
   textBrief: string;
   author: string;
@@ -75,7 +76,7 @@ export const ArticleBrief: Function = (props: Props) => {
       >
         {/* title and description */}
         <div className="space-y-1 flex-1 pr-4">
-          <Link to="/article">
+          <Link to={`/articles/${props.id}`}>
             <h1
               className="capitalize text-lg font-bold leading-6 line-clamp-2 text-gray-800
             hover:underline"
@@ -99,7 +100,7 @@ export const ArticleBrief: Function = (props: Props) => {
         {/* time posted, save */}
         <div className="flex">
           <p className="flex-1 text-gray-400">{timeSince(props.created)} ago</p>
-          <svg
+          {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -112,7 +113,7 @@ export const ArticleBrief: Function = (props: Props) => {
               strokeLinejoin="round"
               d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
             />
-          </svg>
+          </svg> */}
         </div>
       </div>
     </div>

@@ -1,15 +1,54 @@
-import IMG_8 from "../assets/8.jpg";
-import articleData from "../assets/article.json";
-import { FollowButton } from "./followbutton";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Buffer } from "buffer";
 
 const uniqid = require("uniqid");
 
 interface Content {
   type: "paragraph" | "header";
-  content: string;
+  text: string;
 }
 
-export const Article: Function = () => {
+interface ArticleInterface {
+  _id: string;
+  title: string;
+  textBrief: string;
+  author: string;
+  created: string;
+  image: string;
+  content: { type: string; text: string }[];
+  imageAlt: string;
+}
+
+export const Article = () => {
+  let { articleId } = useParams();
+
+  const [article, setArticle] = useState<ArticleInterface>();
+  useEffect(() => {
+    const getArticle = async () => {
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:5000/articles/${articleId}`
+        );
+        const json = await response.json();
+        setArticle(json);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getArticle();
+  }, []);
+
+  const [img, setImg] = useState<string | undefined>(undefined);
+
+  const convertBufferToImage = () => {
+    if (article)
+      setImg(
+        "data:image/png;base64," + Buffer.from(article.image).toString("base64")
+      );
+  };
+  useEffect(convertBufferToImage, [article]);
+
   const displayContent: Function = (e: Content, i: number) => {
     if (e.type === "header") {
       if (i === 0) {
@@ -18,7 +57,7 @@ export const Article: Function = () => {
             className="font-bold text-xl leading-6 text-gray-800"
             key={uniqid()}
           >
-            {e.content}
+            {e.text}
           </div>
         );
       } else {
@@ -27,14 +66,14 @@ export const Article: Function = () => {
             className="font-bold text-xl leading-6 text-gray-800 pt-6"
             key={uniqid()}
           >
-            {e.content}
+            {e.text}
           </div>
         );
       }
     } else if (e.type === "paragraph") {
       return (
         <div className="text-md text-gray-800" key={uniqid()}>
-          {e.content}
+          {e.text}
         </div>
       );
     } else {
@@ -43,10 +82,20 @@ export const Article: Function = () => {
           className="font-bold text-lg text-gray-800 bg-red-500"
           key={uniqid()}
         >
-          {e.content}
+          {e.text}
         </div>
       );
     }
+  };
+
+  const formatDate = (dateString: string | undefined) => {
+    if (dateString === undefined) return;
+    const date = new Date(dateString);
+    return date.toLocaleString("en-US", {
+      month: "long",
+      year: "numeric",
+      day: "numeric",
+    });
   };
 
   return (
@@ -57,29 +106,27 @@ export const Article: Function = () => {
           lg:px-16"
       >
         <div className="flex">
-          <h1 className="text-2xl text-gray-800 font-bold">
-            Unlocking the Secrets of Cows: A Fascinating Look into Bovine
-            Behavior and Biology
-          </h1>
+          <h1 className="text-2xl text-gray-800 font-bold">{article?.title}</h1>
         </div>
 
         <div className="flex space-x-2 items-center pb-2">
           <div>
             <h2 className="text-md font-medium text-gray-500">
-              <span className="font-normal">by </span>John Doe
+              <span className="font-normal">by </span>
+              {article?.author}
             </h2>
-            <p className="text-gray-400">February 9, 2022</p>
+            <p className="text-gray-400">{formatDate(article?.created)}</p>
           </div>
-          <FollowButton />
+          {/* <FollowButton /> */}
         </div>
 
         <img
           className="h-72 w-full object-cover rounded-sm"
-          src={IMG_8}
-          alt=""
+          src={img}
+          alt={article?.imageAlt}
         />
         <p className="pb-2 text-sm text-gray-500">
-          Photo by{" "}
+          {/* Photo by{" "}
           <a
             className="underline"
             href="https://unsplash.com/@gabrielizalo?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
@@ -92,10 +139,10 @@ export const Article: Function = () => {
             href="https://unsplash.com/images/animals/cow?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
           >
             Unsplash
-          </a>
+          </a> */}
         </p>
 
-        {articleData.map((e, i) => displayContent(e, i))}
+        {article?.content.map((e, i) => displayContent(e, i))}
       </div>
     </div>
   );
