@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Buffer } from "buffer";
-
+import { Spinner } from "./spinner";
 const uniqid = require("uniqid");
 
 interface Content {
@@ -32,6 +32,7 @@ export const Article = () => {
         );
         const json = await response.json();
         setArticle(json);
+        setLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -98,35 +99,43 @@ export const Article = () => {
     });
   };
 
+  const [loading, setLoading] = useState(true);
+
   return (
-    <div className="flex justify-center">
-      <div
-        className="bg-white p-6 rounded-lg space-y-2 shadow max-w-2xl
+    <div>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <div className="flex justify-center">
+          <div
+            className="bg-white p-6 rounded-lg space-y-2 shadow max-w-2xl
           sm:p-12
           lg:px-16"
-      >
-        <div className="flex">
-          <h1 className="text-2xl text-gray-800 font-bold">{article?.title}</h1>
-        </div>
+          >
+            <div className="flex">
+              <h1 className="text-2xl text-gray-800 font-bold">
+                {article?.title}
+              </h1>
+            </div>
 
-        <div className="flex space-x-2 items-center pb-2">
-          <div>
-            <h2 className="text-md font-medium text-gray-500">
-              <span className="font-normal">by </span>
-              {article?.author}
-            </h2>
-            <p className="text-gray-400">{formatDate(article?.created)}</p>
-          </div>
-          {/* <FollowButton /> */}
-        </div>
+            <div className="flex space-x-2 items-center pb-2">
+              <div>
+                <h2 className="text-md font-medium text-gray-500">
+                  <span className="font-normal">by </span>
+                  {article?.author}
+                </h2>
+                <p className="text-gray-400">{formatDate(article?.created)}</p>
+              </div>
+              {/* <FollowButton /> */}
+            </div>
 
-        <img
-          className="h-72 w-full object-cover rounded-sm"
-          src={img}
-          alt={article?.imageAlt}
-        />
-        <p className="pb-2 text-sm text-gray-500">
-          {/* Photo by{" "}
+            <img
+              className="h-72 w-full object-cover rounded-sm"
+              src={img}
+              alt={article?.imageAlt}
+            />
+            <p className="pb-2 text-sm text-gray-500">
+              {/* Photo by{" "}
           <a
             className="underline"
             href="https://unsplash.com/@gabrielizalo?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
@@ -140,10 +149,12 @@ export const Article = () => {
           >
             Unsplash
           </a> */}
-        </p>
+            </p>
 
-        {article?.content.map((e, i) => displayContent(e, i))}
-      </div>
+            {article?.content.map((e, i) => displayContent(e, i))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
