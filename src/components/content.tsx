@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArticleBrief } from "./articlebrief";
 import { Spinner } from "./spinner";
+const uniqid = require("uniqid");
 
 interface Props {
   type: string;
@@ -27,17 +28,20 @@ export const Content: Function = (props: Props) => {
     }
   }, []);
 
+  const [errors, setErrors] = useState<any>(null);
+
   const [articles, setArticles] = useState<Article[]>([]);
   useEffect(() => {
     const getArticles = async () => {
       try {
         const response = await fetch("http://127.0.0.1:5000/articles");
         const json = await response.json();
-        setArticles(json);
-        isLoading(false);
+        if (json.errors) setErrors(json.errors);
+        else setArticles(json);
       } catch (err) {
-        console.log(err);
+        setErrors([{ message: "An unknown error occurred" }]);
       }
+      isLoading(false);
     };
     getArticles();
   }, []);
@@ -48,6 +52,14 @@ export const Content: Function = (props: Props) => {
     <div>
       {loading ? (
         <Spinner />
+      ) : errors ? (
+        errors.map((e: { message: string }) => (
+          <h2 key={uniqid()} className="font-bold text-lg text-gray-400">
+            {e.message}
+          </h2>
+        ))
+      ) : articles.length === 0 ? (
+        <h2 className="font-bold text-lg text-gray-400">Nothing to show</h2>
       ) : (
         <div className="xl:columns-2 space-y-4">
           {articles.map((a) => (

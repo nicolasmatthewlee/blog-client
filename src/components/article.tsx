@@ -64,7 +64,7 @@ export const Article = () => {
       } else {
         return (
           <div
-            className="font-bold text-xl leading-6 text-gray-800 pt-6"
+            className="font-bold text-xl leading-6 text-gray-800 pt-4"
             key={uniqid()}
           >
             {e.text}
