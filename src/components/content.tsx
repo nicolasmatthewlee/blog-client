@@ -41,12 +41,12 @@ export const Content: Function = (props: Props) => {
       } catch (err) {
         setErrors([{ message: "An unknown error occurred" }]);
       }
-      isLoading(false);
+      setIsLoading(false);
     };
     getArticles();
   }, []);
 
-  const [loading, isLoading] = useState<Boolean>(true);
+  const [loading, setIsLoading] = useState<Boolean>(true);
 
   return (
     <div>
