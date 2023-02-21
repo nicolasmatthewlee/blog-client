@@ -26,6 +26,28 @@ export const UserForm: Function = (props: Props) => {
 
   const handleSubmit = () => {
     if (props.type === "signin") {
+      const submitSigninForm = async () => {
+        setIsLoading(true);
+        try {
+          const response = await fetch("http://127.0.0.1:5000/signin", {
+            method: "post",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+          });
+          const json = await response.json();
+          if (json.errors) setErrors(json.errors);
+          else {
+            setErrors([]);
+            navigate("/");
+          }
+        } catch (err) {
+          setErrors([{ msg: "An unknown error occurred" }]);
+        }
+        setIsLoading(false);
+      };
+      submitSigninForm();
     } else if (props.type === "signup") {
       const submitSignupForm = async () => {
         setIsLoading(true);
