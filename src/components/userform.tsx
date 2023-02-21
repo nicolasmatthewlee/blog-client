@@ -31,6 +31,7 @@ export const UserForm: Function = (props: Props) => {
         try {
           const response = await fetch("http://127.0.0.1:5000/signin", {
             method: "post",
+            credentials: "include",
             headers: {
               "content-type": "application/json",
             },

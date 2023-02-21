@@ -6,7 +6,7 @@ import { Content } from "./content";
 import { Notifications } from "./notifications";
 import { Article } from "./article";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   type: "write" | "settings" | "saved" | "notifications" | "home" | "article";
@@ -14,6 +14,26 @@ interface Props {
 
 export const PageLayout = (props: Props) => {
   const [user, setUser] = useState<null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/user", {
+          credentials: "include",
+        });
+        const json = await response.json();
+        if (json.errors) console.error("error"); //setErrors(json.errors);
+        else {
+          console.log(json);
+          // setErrors([]);
+        }
+      } catch (err) {
+        console.error("uh oh");
+        // setErrors([{ msg: "An unknown error occurred" }]);
+      }
+    };
+    fetchUser();
+  }, []);
 
   return (
     <div className="absolute h-full w-full flex">
