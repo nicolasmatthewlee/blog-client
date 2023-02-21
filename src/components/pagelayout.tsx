@@ -7,6 +7,8 @@ import { Notifications } from "./notifications";
 import { Article } from "./article";
 
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Spinner } from "./spinner";
 
 interface Props {
   type: "write" | "settings" | "saved" | "notifications" | "home" | "article";
@@ -17,8 +19,11 @@ interface User {
   _id: string;
 }
 
-export const PageLayout = (props: Props) => {
+export const PageLayout = ({ type }: Props) => {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState<User | null>(null);
+  const [isFetching, setIsFetching] = useState<Boolean>(true);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -29,27 +34,40 @@ export const PageLayout = (props: Props) => {
         const json = await response.json();
         if (!json.errors) setUser(json);
       } catch (err) {}
+      setIsFetching(false);
     };
     fetchUser();
   }, []);
+
+  useEffect(() => {
+    if (isFetching === false) {
+      if (
+        ["write", "settings", "saved", "notifications"].includes(type) &&
+        user === null
+      )
+        navigate("/signin");
+    }
+  }, [isFetching, type]);
 
   return (
     <div className="absolute h-full w-full flex">
       {user ? <SideBar /> : null}
       <div className="flex-1 flex flex-col">
-        <Header text={props.type} user={user} />
+        <Header text={type} user={user} />
         <div className="flex-1 flex overflow-scroll bg-gray-100 justify-center items-start p-4">
-          {props.type === "write" ? (
-            <ArticleForm user={user} />
-          ) : props.type === "settings" ? (
-            <Settings user={user} />
-          ) : props.type === "saved" ? (
-            <Content type="saved" user={user} key="saved" />
-          ) : props.type === "notifications" ? (
-            <Notifications user={user} />
-          ) : props.type === "home" ? (
+          {type === "home" ? (
             <Content key="home" />
-          ) : props.type === "article" ? (
+          ) : isFetching ? (
+            <Spinner />
+          ) : type === "write" ? (
+            <ArticleForm user={user} />
+          ) : type === "settings" ? (
+            <Settings user={user} />
+          ) : type === "saved" ? (
+            <Content type="saved" user={user} key="saved" />
+          ) : type === "notifications" ? (
+            <Notifications user={user} />
+          ) : type === "article" ? (
             <Article />
           ) : null}
         </div>

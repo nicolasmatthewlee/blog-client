@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
 import { Notification } from "./notification";
 
 interface Props {
@@ -11,12 +8,6 @@ interface Props {
 }
 
 export const Notifications: Function = ({ user }: Props) => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user === null) navigate("/signin");
-  }, []);
-
   return (
     <div className="flex flex-col space-y-4">
       <Notification />

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { ArticleBrief } from "./articlebrief";
 import { Spinner } from "./spinner";
 const uniqid = require("uniqid");
@@ -23,14 +22,6 @@ interface Article {
 }
 
 export const Content: Function = ({ type, user }: Props) => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (type === "saved") {
-      if (user === null) navigate("/signin");
-    }
-  });
-
   const [errors, setErrors] = useState<any>(null);
 
   const [articles, setArticles] = useState<Article[]>([]);

@@ -1,6 +1,3 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-
 interface Props {
   user: {
     _id: string;
@@ -9,12 +6,6 @@ interface Props {
 }
 
 export const Settings: Function = ({ user }: Props) => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user === null) navigate("/signin");
-  }, []);
-
   return (
     <div
       className="bg-white rounded-lg p-6 shadow max-w-2xl w-100 flex flex-1 flex-col
