@@ -1,12 +1,28 @@
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
-interface HeaderType {
+interface Props {
   text: null | string;
+  user: null | { username: string };
 }
 
-export const Header: Function = (props: HeaderType) => {
-  const [user, setUser] = useState<null>(null);
+export const Header: Function = (props: Props) => {
+  const navigate = useNavigate();
+
+  const [signoutIsLoading, setSignoutIsLoading] = useState<Boolean>(false);
+
+  const handleSignOut = async () => {
+    setSignoutIsLoading(true);
+    try {
+      const response = await fetch("http://127.0.0.1:5000/signout", {
+        method: "post",
+        credentials: "include",
+      });
+      const json = await response.json();
+      if (!json.errors) navigate("/signin");
+    } catch (err) {}
+    setSignoutIsLoading(false);
+  };
 
   return (
     <div
@@ -46,26 +62,31 @@ export const Header: Function = (props: HeaderType) => {
           />
         </div>
       )}
-      {user ? (
+      {props.user ? (
         <div className="flex-1 flex pr-4 space-x-2 items-center justify-end min-w-0">
-          <div className="flex items-center min-w-0">
-            <h3 className="text-2xl text-center font-medium text-gray-600 truncate min-w-0">
-              John Doe
-            </h3>
-          </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="h-10 fill-slate-400
-                      sm:h-14 flex-shrink-0"
-          >
-            <path
-              fillRule="evenodd"
-              d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-              clipRule="evenodd"
-            />
-          </svg>
+          {signoutIsLoading ? (
+            <button
+              disabled
+              className="px-4 py-1 rounded-lg font-medium text-gray-400 flex items-center"
+            >
+              <div className="animate-spin w-3 h-3 bg-gray-400 rounded-full mr-2 relative flex items-center justify-center">
+                <div className={`w-2 h-2 rounded-full absolute bg-white`}></div>
+                <div
+                  className={`w-1.5 h-1.5 absolute top-0 left-0 bg-white`}
+                ></div>
+              </div>
+              Signing out...
+            </button>
+          ) : (
+            <button
+              className="px-4 py-1 rounded-lg font-medium text-gray-500
+            hover:underline
+            active:text-gray-800"
+              onClick={handleSignOut}
+            >
+              Sign out
+            </button>
+          )}
         </div>
       ) : (
         <div className="flex-1 flex pr-4 space-x-2 items-center justify-end min-w-0">

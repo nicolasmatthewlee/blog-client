@@ -12,8 +12,13 @@ interface Props {
   type: "write" | "settings" | "saved" | "notifications" | "home" | "article";
 }
 
+interface User {
+  username: string;
+  _id: string;
+}
+
 export const PageLayout = (props: Props) => {
-  const [user, setUser] = useState<null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -22,15 +27,8 @@ export const PageLayout = (props: Props) => {
           credentials: "include",
         });
         const json = await response.json();
-        if (json.errors) console.error("error"); //setErrors(json.errors);
-        else {
-          console.log(json);
-          // setErrors([]);
-        }
-      } catch (err) {
-        console.error("uh oh");
-        // setErrors([{ msg: "An unknown error occurred" }]);
-      }
+        if (!json.errors) setUser(json);
+      } catch (err) {}
     };
     fetchUser();
   }, []);
@@ -39,7 +37,7 @@ export const PageLayout = (props: Props) => {
     <div className="absolute h-full w-full flex">
       {user ? <SideBar /> : null}
       <div className="flex-1 flex flex-col">
-        <Header text={props.type} />
+        <Header text={props.type} user={user} />
         <div className="flex-1 flex overflow-scroll bg-gray-100 justify-center items-start p-4">
           {props.type === "write" ? (
             <ArticleForm />
