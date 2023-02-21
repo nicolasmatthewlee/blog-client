@@ -63,11 +63,15 @@ export const Header: Function = (props: Props) => {
         </div>
       )}
       {props.user ? (
-        <div className="flex-1 flex pr-4 space-x-2 items-center justify-end min-w-0">
+        <div className="flex pr-4 items-center justify-start min-w-0">
+          <div className="font-medium text-gray-400">
+            {props.user.username}
+            <span className="ml-2 font-normal text-gray-500">|</span>
+          </div>
           {signoutIsLoading ? (
             <button
               disabled
-              className="px-4 py-1 rounded-lg font-medium text-gray-400 flex items-center"
+              className="px-2 py-1 rounded-lg font-medium text-gray-400 flex items-center"
             >
               <div className="animate-spin w-3 h-3 bg-gray-400 rounded-full mr-2 relative flex items-center justify-center">
                 <div className={`w-2 h-2 rounded-full absolute bg-white`}></div>
@@ -79,7 +83,7 @@ export const Header: Function = (props: Props) => {
             </button>
           ) : (
             <button
-              className="px-4 py-1 rounded-lg font-medium text-gray-500
+              className="px-2 py-1 rounded-lg font-medium text-gray-500
             hover:underline
             active:text-gray-800"
               onClick={handleSignOut}
