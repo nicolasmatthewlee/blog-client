@@ -6,6 +6,10 @@ const uniqid = require("uniqid");
 
 interface Props {
   type: string;
+  user: {
+    _id: string;
+    username: string;
+  };
 }
 
 interface Article {
@@ -18,33 +22,37 @@ interface Article {
   imageAlt: string;
 }
 
-export const Content: Function = (props: Props) => {
+export const Content: Function = ({ type, user }: Props) => {
   const navigate = useNavigate();
 
-  const [user, setUser] = useState<null>(null);
   useEffect(() => {
-    if (props.type === "saved") {
+    if (type === "saved") {
       if (user === null) navigate("/signin");
     }
-  }, []);
+  });
 
   const [errors, setErrors] = useState<any>(null);
 
   const [articles, setArticles] = useState<Article[]>([]);
   useEffect(() => {
-    const getArticles = async () => {
-      try {
-        const response = await fetch("http://127.0.0.1:5000/articles");
-        const json = await response.json();
-        if (json.errors) setErrors(json.errors);
-        else setArticles(json);
-      } catch (err) {
-        setErrors([{ message: "An unknown error occurred" }]);
-      }
+    if (type === "saved") {
+      // todo: get saved articles
       setIsLoading(false);
-    };
-    getArticles();
-  }, []);
+    } else {
+      const getAllArticles = async () => {
+        try {
+          const response = await fetch("http://127.0.0.1:5000/articles");
+          const json = await response.json();
+          if (json.errors) setErrors(json.errors);
+          else setArticles(json);
+        } catch (err) {
+          setErrors([{ message: "An unknown error occurred" }]);
+        }
+        setIsLoading(false);
+      };
+      getAllArticles();
+    }
+  }, [type]);
 
   const [loading, setIsLoading] = useState<Boolean>(true);
 

@@ -3,10 +3,16 @@ import { useNavigate } from "react-router-dom";
 
 import { Notification } from "./notification";
 
-export const Notifications: Function = () => {
+interface Props {
+  user: {
+    _id: string;
+    username: string;
+  };
+}
+
+export const Notifications: Function = ({ user }: Props) => {
   const navigate = useNavigate();
 
-  const [user, setUser] = useState<null>(null);
   useEffect(() => {
     if (user === null) navigate("/signin");
   }, []);

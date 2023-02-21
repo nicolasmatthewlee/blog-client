@@ -40,15 +40,15 @@ export const PageLayout = (props: Props) => {
         <Header text={props.type} user={user} />
         <div className="flex-1 flex overflow-scroll bg-gray-100 justify-center items-start p-4">
           {props.type === "write" ? (
-            <ArticleForm />
+            <ArticleForm user={user} />
           ) : props.type === "settings" ? (
-            <Settings />
+            <Settings user={user} />
           ) : props.type === "saved" ? (
-            <Content type="saved" />
+            <Content type="saved" user={user} key="saved" />
           ) : props.type === "notifications" ? (
-            <Notifications />
+            <Notifications user={user} />
           ) : props.type === "home" ? (
-            <Content />
+            <Content key="home" />
           ) : props.type === "article" ? (
             <Article />
           ) : null}

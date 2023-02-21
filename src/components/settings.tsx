@@ -1,10 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const Settings: Function = () => {
+interface Props {
+  user: {
+    _id: string;
+    username: string;
+  };
+}
+
+export const Settings: Function = ({ user }: Props) => {
   const navigate = useNavigate();
 
-  const [user, setUser] = useState<null>(null);
   useEffect(() => {
     if (user === null) navigate("/signin");
   }, []);
