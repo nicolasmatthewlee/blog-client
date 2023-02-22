@@ -17,6 +17,7 @@ interface Props {
 interface User {
   username: string;
   _id: string;
+  saved: string[];
 }
 
 export const PageLayout = ({ type }: Props) => {
@@ -56,7 +57,7 @@ export const PageLayout = ({ type }: Props) => {
         <Header text={type} user={user} />
         <div className="flex-1 flex overflow-scroll bg-gray-100 justify-center items-start p-4">
           {type === "home" ? (
-            <Content key="home" />
+            <Content key="home" user={user} />
           ) : isFetching ? (
             <Spinner />
           ) : type === "write" ? (

@@ -10,10 +10,13 @@ interface Props {
   created: string;
   image: Buffer;
   imageAlt: string;
+  saved: Boolean;
+  userId: string;
 }
 
 export const ArticleBrief: Function = (props: Props) => {
   const [img, setImg] = useState<string | undefined>(undefined);
+  const [saved, setSaved] = useState<Boolean>(props.saved);
 
   const convertBufferToImage = () => {
     setImg(
@@ -55,6 +58,28 @@ export const ArticleBrief: Function = (props: Props) => {
   const timeSince = (datetime: string) => {
     const now: Date = new Date();
     return formatTimeSince(now.getTime() - Date.parse(datetime));
+  };
+
+  const updateSaved = async (articleId: string, toStatus: Boolean) => {
+    setSaved(toStatus);
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:5000/users/${props.userId}/saved`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ articleId, toStatus }),
+        }
+      );
+      const json = await response.json();
+      if (json.errors) setSaved(!toStatus); // revert status if not saved
+      else setSaved(json.result);
+    } catch {
+      setSaved(!toStatus); // revert status if not saved
+    }
   };
 
   return (
@@ -100,20 +125,29 @@ export const ArticleBrief: Function = (props: Props) => {
         {/* time posted, save */}
         <div className="flex">
           <p className="flex-1 text-gray-400">{timeSince(props.created)} ago</p>
-          {/* <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2.5}
-            stroke="currentColor"
-            className="w-6 h-6 stroke-gray-300"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
-            />
-          </svg> */}
+          {props.userId ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2.5}
+              stroke="currentColor"
+              className={
+                saved
+                  ? "w-6 h-6 fill-emerald-500 stroke-emerald-500 hover:stroke-emerald-600 hover:fill-emerald-600"
+                  : "w-6 h-6 stroke-gray-300 hover:fill-emerald-100 hover:stroke-emerald-500 active:fill-emerald-500 active:stroke-emerald-500"
+              }
+              onClick={() => {
+                updateSaved(props.id, !saved);
+              }}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+              />
+            </svg>
+          ) : null}
         </div>
       </div>
     </div>

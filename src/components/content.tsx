@@ -68,6 +68,8 @@ export const Content: Function = ({ type, user }: Props) => {
               textBrief={a.textBrief}
               author={a.author}
               created={a.created}
+              userId={user?._id}
+              saved={user?.saved.includes(a._id)}
             />
           ))}
         </div>
