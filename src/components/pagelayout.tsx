@@ -66,7 +66,12 @@ export const PageLayout = ({ type }: Props) => {
           ) : type === "settings" ? (
             <Settings user={user} />
           ) : type === "saved" ? (
-            <Content type="saved" user={user} key="saved" />
+            <Content
+              type="saved"
+              user={user}
+              key="saved"
+              onToggleSaved={fetchUser}
+            />
           ) : type === "notifications" ? (
             <Notifications user={user} />
           ) : type === "article" ? (

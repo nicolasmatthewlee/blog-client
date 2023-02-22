@@ -25,10 +25,28 @@ export const Content: Function = ({ type, user, onToggleSaved }: Props) => {
   const [articles, setArticles] = useState<Article[]>([]);
   useEffect(() => {
     if (type === "saved") {
-      // todo: get saved articles
-      setIsLoading(false);
+      const getSavedArticles = async () => {
+        setIsLoading(true);
+        try {
+          const urls = user?.saved.map(
+            (id) => "http://127.0.0.1:5000/articles/" + id
+          );
+          if (!urls) return;
+
+          const requests = urls.map((url) => fetch(url));
+          const responses = await Promise.all(requests);
+          const jsons = await Promise.all(responses.map((res) => res.json()));
+
+          setArticles(jsons.filter((json) => !json.error));
+        } catch (err) {
+          setErrors([{ message: "An unknown error occurred" }]);
+        }
+        setIsLoading(false);
+      };
+      getSavedArticles();
     } else {
       const getAllArticles = async () => {
+        setIsLoading(true);
         try {
           const response = await fetch("http://127.0.0.1:5000/articles");
           const json = await response.json();
