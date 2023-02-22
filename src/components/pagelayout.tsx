@@ -26,17 +26,18 @@ export const PageLayout = ({ type }: Props) => {
   const [user, setUser] = useState<User | null>(null);
   const [isFetching, setIsFetching] = useState<Boolean>(true);
 
+  const fetchUser = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:5000/user", {
+        credentials: "include",
+      });
+      const json = await response.json();
+      if (!json.errors) setUser(json);
+    } catch (err) {}
+    setIsFetching(false);
+  };
+
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch("http://127.0.0.1:5000/user", {
-          credentials: "include",
-        });
-        const json = await response.json();
-        if (!json.errors) setUser(json);
-      } catch (err) {}
-      setIsFetching(false);
-    };
     fetchUser();
   }, []);
 
@@ -57,7 +58,7 @@ export const PageLayout = ({ type }: Props) => {
         <Header text={type} user={user} />
         <div className="flex-1 flex overflow-scroll bg-gray-100 justify-center items-start p-4">
           {type === "home" ? (
-            <Content key="home" user={user} />
+            <Content key="home" user={user} onToggleSaved={fetchUser} />
           ) : isFetching ? (
             <Spinner />
           ) : type === "write" ? (
@@ -69,7 +70,11 @@ export const PageLayout = ({ type }: Props) => {
           ) : type === "notifications" ? (
             <Notifications user={user} />
           ) : type === "article" ? (
-            <Article />
+            <Article
+              savedList={user ? user?.saved : []}
+              userId={user ? user._id : ""}
+              onToggleSaved={fetchUser}
+            />
           ) : null}
         </div>
       </div>

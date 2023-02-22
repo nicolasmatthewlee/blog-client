@@ -6,6 +6,7 @@ const uniqid = require("uniqid");
 
 interface Props extends UserInterface {
   type: string;
+  onToggleSaved: Function;
 }
 
 interface Article {
@@ -18,7 +19,7 @@ interface Article {
   imageAlt: string;
 }
 
-export const Content: Function = ({ type, user }: Props) => {
+export const Content: Function = ({ type, user, onToggleSaved }: Props) => {
   const [errors, setErrors] = useState<any>(null);
 
   const [articles, setArticles] = useState<Article[]>([]);
@@ -70,6 +71,7 @@ export const Content: Function = ({ type, user }: Props) => {
               created={a.created}
               userId={user?._id}
               saved={user?.saved.includes(a._id)}
+              onToggleSaved={onToggleSaved}
             />
           ))}
         </div>

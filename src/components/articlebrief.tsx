@@ -12,6 +12,7 @@ interface Props {
   imageAlt: string;
   saved: Boolean;
   userId: string;
+  onToggleSaved: Function;
 }
 
 export const ArticleBrief: Function = (props: Props) => {
@@ -77,6 +78,7 @@ export const ArticleBrief: Function = (props: Props) => {
       const json = await response.json();
       if (json.errors) setSaved(!toStatus); // revert status if not saved
       else setSaved(json.result);
+      props.onToggleSaved();
     } catch {
       setSaved(!toStatus); // revert status if not saved
     }
