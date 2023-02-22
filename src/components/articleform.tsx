@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { UserInterface } from "../models/user";
 
 const uniqid = require("uniqid");
 
@@ -8,14 +9,7 @@ interface ContentItem {
   id: string;
 }
 
-interface Props {
-  user: {
-    _id: string;
-    username: string;
-  };
-}
-
-export const ArticleForm: Function = ({ user }: Props) => {
+export const ArticleForm: Function = ({ user }: UserInterface) => {
   const [content, setContent] = useState<ContentItem[]>([]);
   const [image, setImage] = useState<string>();
 

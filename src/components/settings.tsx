@@ -1,15 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserInterface } from "../models/user";
 const uniqid = require("uniqid");
 
-interface Props {
-  user: {
-    _id: string;
-    username: string;
-  } | null;
-}
-
-export const Settings: Function = ({ user }: Props) => {
+export const Settings: Function = ({ user }: UserInterface) => {
   const navigate = useNavigate();
   const [errors, setErrors] = useState<{ message: string }[]>([]);
   const [isLoading, setIsLoading] = useState<Boolean>(false);

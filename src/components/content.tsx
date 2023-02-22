@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
+import { UserInterface } from "../models/user";
 import { ArticleBrief } from "./articlebrief";
 import { Spinner } from "./spinner";
 const uniqid = require("uniqid");
 
-interface Props {
+interface Props extends UserInterface {
   type: string;
-  user: {
-    _id: string;
-    username: string;
-  };
 }
 
 interface Article {
