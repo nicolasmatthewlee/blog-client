@@ -12,6 +12,7 @@ interface Props {
   footerLinkText: string;
   footerLinkTo: string;
   buttonColor: string;
+  spinnerColor: string;
 }
 
 export const UserForm: Function = (props: Props) => {
@@ -124,14 +125,14 @@ export const UserForm: Function = (props: Props) => {
         <button
           disabled
           className={`${props.buttonColor} text-white px-2 py-1.5 rounded-lg w-full
-        transition-colors flex justify-center items-center`}
+        flex justify-center items-center`}
         >
           <div className="animate-spin w-4 h-4 bg-white rounded-full mr-2 relative flex items-center justify-center">
             <div
-              className={`w-3 h-3 rounded-full absolute ${props.buttonColor}`}
+              className={`w-3 h-3 rounded-full absolute ${props.spinnerColor}`}
             ></div>
             <div
-              className={`w-2 h-2 absolute top-0 left-0 ${props.buttonColor}`}
+              className={`w-2 h-2 absolute top-0 left-0 ${props.spinnerColor}`}
             ></div>
           </div>
           Loading...
