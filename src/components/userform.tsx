@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { Spinner } from "./spinner";
 const uniqid = require("uniqid");
 
 interface Props {
@@ -55,6 +54,7 @@ export const UserForm: Function = (props: Props) => {
         try {
           const response = await fetch("http://127.0.0.1:5000/signup", {
             method: "post",
+            credentials: "include",
             headers: {
               "content-type": "application/json",
             },
