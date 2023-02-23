@@ -3,5 +3,6 @@ export interface UserInterface {
     _id: string;
     username: string;
     saved: string[];
+    liked: string[];
   } | null;
 }

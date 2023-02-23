@@ -89,6 +89,7 @@ export const Content: Function = ({ type, user, onToggleSaved }: Props) => {
               created={a.created}
               userId={user?._id}
               saved={user?.saved.includes(a._id)}
+              liked={user?.liked.includes(a._id)}
               onToggleSaved={onToggleSaved}
             />
           ))}

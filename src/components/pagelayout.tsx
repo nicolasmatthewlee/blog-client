@@ -18,6 +18,7 @@ interface User {
   username: string;
   _id: string;
   saved: string[];
+  liked: string[];
 }
 
 export const PageLayout = ({ type }: Props) => {
@@ -76,6 +77,7 @@ export const PageLayout = ({ type }: Props) => {
             <Notifications user={user} />
           ) : type === "article" ? (
             <Article
+              likedList={user ? user?.liked : []}
               savedList={user ? user?.saved : []}
               userId={user ? user._id : ""}
               onToggleSaved={fetchUser}

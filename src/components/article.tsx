@@ -22,6 +22,7 @@ interface ArticleInterface {
 
 interface Props {
   savedList: string[];
+  likedList: string[];
   userId: string;
   onToggleSaved: Function;
 }
@@ -107,6 +108,9 @@ export const Article = (props: Props) => {
 
   const [loading, setLoading] = useState(true);
 
+  const [liked, setLiked] = useState<Boolean>(
+    articleId ? props.likedList.includes(articleId) : false
+  );
   const [saved, setSaved] = useState<Boolean>(
     articleId ? props.savedList.includes(articleId) : false
   );
@@ -131,6 +135,29 @@ export const Article = (props: Props) => {
       props.onToggleSaved();
     } catch {
       setSaved(!toStatus); // revert status if not saved
+    }
+  };
+
+  const updateLiked = async (articleId: string, toStatus: Boolean) => {
+    setLiked(toStatus);
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:5000/users/${props.userId}/liked`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ articleId, toStatus }),
+        }
+      );
+      const json = await response.json();
+      if (json.errors) setLiked(!toStatus); // revert status if not saved
+      else setLiked(json.result);
+      props.onToggleSaved();
+    } catch {
+      setLiked(!toStatus); // revert status if not saved
     }
   };
 
@@ -162,27 +189,51 @@ export const Article = (props: Props) => {
                     {formatDate(article?.created)}
                   </p>
                   {props.userId ? (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={2.5}
-                      stroke="currentColor"
-                      className={
-                        saved
-                          ? "w-6 h-6 fill-emerald-500 stroke-emerald-500 hover:stroke-emerald-600 hover:fill-emerald-600"
-                          : "w-6 h-6 stroke-gray-300 hover:fill-emerald-100 hover:stroke-emerald-500 active:fill-emerald-500 active:stroke-emerald-500"
-                      }
-                      onClick={() => {
-                        if (article?._id) updateSaved(article?._id, !saved);
-                      }}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
-                      />
-                    </svg>
+                    <div className="flex space-x-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2.5}
+                        stroke="currentColor"
+                        className={
+                          liked
+                            ? "w-6 h-6 fill-rose-500 stroke-rose-500 hover:stroke-rose-600 hover:fill-rose-600"
+                            : "w-6 h-6 stroke-gray-300 hover:fill-rose-100 hover:stroke-rose-500 active:fill-rose-500 active:stroke-rose-500"
+                        }
+                        onClick={() => {
+                          if (article?._id) updateLiked(article?._id, !liked);
+                        }}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                        />
+                      </svg>
+
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2.5}
+                        stroke="currentColor"
+                        className={
+                          saved
+                            ? "w-6 h-6 fill-emerald-500 stroke-emerald-500 hover:stroke-emerald-600 hover:fill-emerald-600"
+                            : "w-6 h-6 stroke-gray-300 hover:fill-emerald-100 hover:stroke-emerald-500 active:fill-emerald-500 active:stroke-emerald-500"
+                        }
+                        onClick={() => {
+                          if (article?._id) updateSaved(article?._id, !saved);
+                        }}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+                        />
+                      </svg>
+                    </div>
                   ) : null}
                 </div>
               </div>
@@ -193,22 +244,7 @@ export const Article = (props: Props) => {
               src={img}
               alt={article?.imageAlt}
             />
-            <p className="pb-2 text-sm text-gray-500">
-              {/* Photo by{" "}
-          <a
-            className="underline"
-            href="#"
-          >
-            Nicolas Matthew
-          </a>{" "}
-          on{" "}
-          <a
-            className="underline"
-            href="#"
-          >
-            Unsplash
-          </a> */}
-            </p>
+            <div className="pb-2"></div>
 
             {article?.content.map((e, i) => displayContent(e, i))}
           </div>
