@@ -37,7 +37,7 @@ export const Content: Function = ({ type, user, onToggleSaved }: Props) => {
           const responses = await Promise.all(requests);
           const jsons = await Promise.all(responses.map((res) => res.json()));
 
-          setArticles(jsons.filter((json) => !json.error));
+          setArticles(jsons.filter((json) => !json.errors));
         } catch (err) {
           setErrors([{ message: "An unknown error occurred" }]);
         }
