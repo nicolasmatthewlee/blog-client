@@ -1,29 +1,45 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Buffer } from "buffer";
 import { UserInterface } from "../models/user";
 
 const uniqid = require("uniqid");
 
 interface ContentItem {
   type: "header" | "paragraph";
-  content: string;
+  text: string;
   id: string;
 }
 
 export const ArticleForm: Function = ({ user }: UserInterface) => {
+  const navigate = useNavigate();
+  const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<ContentItem[]>([]);
   const [image, setImage] = useState<string>();
+  const [imageData, setImageData] = useState<Uint8Array>();
+  const [imageError, setImageError] = useState<string | null>(null);
+  const [imageAlt, setImageAlt] = useState<string>("");
 
   const saveImage: Function = (files: File[] | null) => {
+    setImageError(null);
     if (files === null) return;
     const file = files[0];
 
+    // file limit is 1MB (1048576 bytes)
+    if (file.size > 1048576) return setImageError("File must not exceed 1MB");
+
     const reader = new FileReader();
     // onload is called when the read operation is complete
-    reader.onload = (e) => {
-      if (e.target && typeof e.target.result === "string")
-        setImage(e.target.result);
+    reader.onload = () => {
+      if (reader.result && typeof reader.result === "object") {
+        const bytes = new Uint8Array(reader.result);
+        setImageData(Buffer.from(bytes));
+        setImage(
+          "data:image/png;base64," + Buffer.from(bytes).toString("base64")
+        );
+      }
     };
-    reader.readAsDataURL(file);
+    reader.readAsArrayBuffer(file);
   };
 
   const deleteContent: Function = (id: string) => {
@@ -33,7 +49,7 @@ export const ArticleForm: Function = ({ user }: UserInterface) => {
   const updateContent: Function = (id: string, value: string) => {
     setContent(
       content.map((e: ContentItem) => {
-        if (e.id === id) return { type: e.type, content: value, id: e.id };
+        if (e.id === id) return { type: e.type, text: value, id: e.id };
         else return e;
       })
     );
@@ -108,6 +124,52 @@ export const ArticleForm: Function = ({ user }: UserInterface) => {
     }
   };
 
+  const formatDate = (dateString: string | undefined) => {
+    if (dateString === undefined) return;
+    const date = new Date(dateString);
+    return date.toLocaleString("en-US", {
+      month: "long",
+      year: "numeric",
+      day: "numeric",
+    });
+  };
+
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [publishErrors, setPublishErrors] = useState<
+    { message?: string; msg?: string }[]
+  >([]);
+
+  const handlePublish = async () => {
+    console.log(title, content, user?.username, imageAlt);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("http://127.0.0.1:5000/articles", {
+        method: "post",
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          image: imageData,
+          content,
+          author: user?.username,
+          imageAlt,
+        }),
+      });
+      const json = await response.json();
+      if (json.errors) setPublishErrors(json.errors);
+      else {
+        setPublishErrors([]);
+        navigate("/");
+      }
+    } catch (err) {
+      setPublishErrors([{ message: "An unknown error occurred" }]);
+    }
+    setIsLoading(false);
+  };
+
   return (
     <div
       className="bg-white p-6 rounded-lg space-y-2 shadow max-w-2xl w-full
@@ -119,15 +181,17 @@ export const ArticleForm: Function = ({ user }: UserInterface) => {
           className="text-2xl text-gray-800 font-bold w-full border-2 border-dashed"
           placeholder="Title"
           rows={1}
+          onChange={(e) => setTitle(e.target.value)}
         />
       </div>
 
       <div className="flex space-x-2 items-center pb-2">
         <div>
           <h2 className="text-md font-medium text-gray-500">
-            <span className="font-normal">by </span>John Doe
+            <span className="font-normal">by </span>
+            {user?.username}
           </h2>
-          <p className="text-gray-400">February 9, 2022</p>
+          <p className="text-gray-400">{formatDate(String(new Date()))}</p>
         </div>
       </div>
 
@@ -136,8 +200,15 @@ export const ArticleForm: Function = ({ user }: UserInterface) => {
       {image ? (
         <div className="container h-72 w-full rounded-sm border-2 border-dashed relative">
           <div className="p-2 h-72">
+            <input
+              className="opacity-0 absolute top-0 w-full h-full z-10
+                hover:cursor-pointer peer"
+              type="file"
+              accept="image/*"
+              onChange={(event) => saveImage(event.target.files)}
+            />
             <img
-              className="w-full h-full object-cover rounded-lg"
+              className="w-full h-full object-cover rounded-lg peer-hover:opacity-50"
               src={image}
               alt=""
             />
@@ -176,10 +247,17 @@ export const ArticleForm: Function = ({ user }: UserInterface) => {
         </div>
       )}
 
+      {imageError ? (
+        <div className="bg-rose-100 text-rose-600 font-medium px-4 py-1.5 text-sm rounded-sm">
+          <li className="ml-2">{imageError}</li>
+        </div>
+      ) : null}
+
       <input
         className="pb-2 text-sm text-gray-500 border-2 border-dashed flex w-full align-middle pt-2"
         type="text"
-        placeholder="image attribution"
+        placeholder="image alternate text"
+        onChange={(e) => setImageAlt(e.target.value)}
       />
 
       {content.map((e, i) => displayContent(e, i))}
@@ -188,10 +266,7 @@ export const ArticleForm: Function = ({ user }: UserInterface) => {
       <div className="flex flex-col">
         <button
           onClick={() =>
-            setContent([
-              ...content,
-              { type: "header", content: "", id: uniqid() },
-            ])
+            setContent([...content, { type: "header", text: "", id: uniqid() }])
           }
           className="rounded-lg px-2 py-1 font-medium text-gray-500 text-sm flex items-center space-x-1
             hover:bg-gray-500 hover:text-white"
@@ -214,7 +289,7 @@ export const ArticleForm: Function = ({ user }: UserInterface) => {
           onClick={() =>
             setContent([
               ...content,
-              { type: "paragraph", content: "", id: uniqid() },
+              { type: "paragraph", text: "", id: uniqid() },
             ])
           }
           className="rounded-lg px-2 py-1 font-medium text-gray-500 text-sm flex items-center space-x-1
@@ -235,12 +310,41 @@ export const ArticleForm: Function = ({ user }: UserInterface) => {
           <p className="truncate">Add paragraph</p>
         </button>
 
-        <button
-          className="border-2 font-semibold text-sm py-1 rounded-lg text-gray-400 mt-2
-            hover:bg-emerald-500 hover:border-emerald-500 hover:text-white active:border-emerald-600 active:bg-emerald-600"
-        >
-          Publish
-        </button>
+        {publishErrors.length > 0 ? (
+          <div className="bg-rose-100 px-4 py-1.5 rounded-sm font-medium text-rose-600 w-full mt-2 text-sm">
+            {publishErrors.map((e) => (
+              <li className="ml-2" key={uniqid()}>
+                {e.msg ? e.msg : e.message}
+              </li>
+            ))}
+          </div>
+        ) : null}
+
+        {isLoading ? (
+          <button
+            className="border-2 font-semibold text-sm py-1 rounded-lg
+            bg-emerald-500 border-emerald-500 text-white flex items-center justify-center mt-2"
+            disabled
+          >
+            <div className="animate-spin w-3 h-3 bg-white rounded-full mr-2 relative flex items-center justify-center">
+              <div
+                className={`w-2 h-2 rounded-full absolute bg-emerald-500`}
+              ></div>
+              <div
+                className={`w-1.5 h-1.5 absolute top-0 left-0 bg-emerald-500`}
+              ></div>
+            </div>
+            Publishing...
+          </button>
+        ) : (
+          <button
+            className="border-2 font-semibold text-sm py-1 rounded-lg text-gray-400 mt-2
+            hover:bg-emerald-500 hover:border-emerald-500 hover:text-white active:border-emerald-600 active:bg-emerald-600 active:text-white"
+            onClick={handlePublish}
+          >
+            Publish
+          </button>
+        )}
       </div>
     </div>
   );
