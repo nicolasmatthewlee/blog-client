@@ -59,7 +59,7 @@ export const PageLayout = ({ type }: Props) => {
         <Header text={type} user={user} />
         <div className="flex-1 flex overflow-scroll bg-gray-100 justify-center items-start p-4">
           {type === "home" ? (
-            <Content key="home" user={user} onToggleSaved={fetchUser} />
+            <Content key="home" user={user} onUpdate={fetchUser} />
           ) : isFetching ? (
             <Spinner />
           ) : type === "write" ? (
@@ -71,7 +71,7 @@ export const PageLayout = ({ type }: Props) => {
               type="saved"
               user={user}
               key="saved"
-              onToggleSaved={fetchUser}
+              onUpdate={fetchUser}
             />
           ) : type === "notifications" ? (
             <Notifications user={user} />
@@ -80,7 +80,7 @@ export const PageLayout = ({ type }: Props) => {
               likedList={user ? user?.liked : []}
               savedList={user ? user?.saved : []}
               userId={user ? user._id : ""}
-              onToggleSaved={fetchUser}
+              onUpdate={fetchUser}
             />
           ) : null}
         </div>

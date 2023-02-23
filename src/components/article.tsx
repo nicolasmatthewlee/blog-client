@@ -24,7 +24,7 @@ interface Props {
   savedList: string[];
   likedList: string[];
   userId: string;
-  onToggleSaved: Function;
+  onUpdate: Function;
 }
 
 export const Article = (props: Props) => {
@@ -132,7 +132,7 @@ export const Article = (props: Props) => {
       const json = await response.json();
       if (json.errors) setSaved(!toStatus); // revert status if not saved
       else setSaved(json.result);
-      props.onToggleSaved();
+      props.onUpdate();
     } catch {
       setSaved(!toStatus); // revert status if not saved
     }
@@ -155,7 +155,7 @@ export const Article = (props: Props) => {
       const json = await response.json();
       if (json.errors) setLiked(!toStatus); // revert status if not saved
       else setLiked(json.result);
-      props.onToggleSaved();
+      props.onUpdate();
     } catch {
       setLiked(!toStatus); // revert status if not saved
     }

@@ -13,7 +13,7 @@ interface Props {
   saved: Boolean;
   liked: Boolean;
   userId: string;
-  onToggleSaved: Function;
+  onUpdate: Function;
 }
 
 export const ArticleBrief: Function = (props: Props) => {
@@ -80,7 +80,7 @@ export const ArticleBrief: Function = (props: Props) => {
       const json = await response.json();
       if (json.errors) setSaved(!toStatus); // revert status if not saved
       else setSaved(json.result);
-      props.onToggleSaved();
+      props.onUpdate();
     } catch {
       setSaved(!toStatus); // revert status if not saved
     }
@@ -103,7 +103,7 @@ export const ArticleBrief: Function = (props: Props) => {
       const json = await response.json();
       if (json.errors) setLiked(!toStatus); // revert status if not saved
       else setLiked(json.result);
-      props.onToggleSaved();
+      props.onUpdate();
     } catch {
       setLiked(!toStatus); // revert status if not saved
     }
