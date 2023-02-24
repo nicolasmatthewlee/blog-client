@@ -23,9 +23,7 @@ interface Article {
 export const Content: Function = ({ type, user, onUpdate }: Props) => {
   const [errors, setErrors] = useState<any>(null);
   const [articles, setArticles] = useState<Article[]>([]);
-  const [loading, setIsLoading] = useState<Boolean>(true);
-  const [isRetrievingArticles, setIsRetrievingArticles] =
-    useState<Boolean>(false);
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -39,15 +37,32 @@ export const Content: Function = ({ type, user, onUpdate }: Props) => {
           );
           if (!urls) return;
 
-          const requests = urls.map((url) => fetch(url));
-          const responses = await Promise.all(requests);
-          const jsons = await Promise.all(responses.map((res) => res.json()));
-
-          setArticles(jsons.filter((json) => !json.errors));
+          const requests = urls.map((url) =>
+            fetch(url, {
+              method: "get",
+              signal,
+            })
+              .then((response) => {
+                return response.json();
+              })
+              .then((json) => {
+                if (json.errors) throw Error();
+                setArticles((articles) => articles.concat(json));
+                return true;
+              })
+              .catch((err) => {
+                return "An unknown error occured";
+              })
+          );
+          await Promise.allSettled(requests).then(() => {
+            if (!signal.aborted) setIsLoading(false);
+          });
         } catch (err) {
-          setErrors([{ message: "An unknown error occurred" }]);
+          if (!signal.aborted) {
+            setErrors([{ message: "An unknown error occurred" }]);
+            setIsLoading(false);
+          }
         }
-        setIsLoading(false);
       };
       getSavedArticles();
     } else {
@@ -60,7 +75,6 @@ export const Content: Function = ({ type, user, onUpdate }: Props) => {
           else {
             const articleIds: string[] = json;
             const retrieveArticles = async () => {
-              setIsRetrievingArticles(true);
               const allArticleResponses = articleIds.map((id) =>
                 fetch(`http://127.0.0.1:5000/articles/${id}`, {
                   method: "get",
@@ -79,16 +93,18 @@ export const Content: Function = ({ type, user, onUpdate }: Props) => {
                   })
               );
 
-              await Promise.allSettled(allArticleResponses).then(() =>
-                setIsRetrievingArticles(false)
-              );
+              await Promise.allSettled(allArticleResponses).then(() => {
+                if (!signal.aborted) setIsLoading(false);
+              });
             };
             retrieveArticles();
           }
         } catch (err) {
-          setErrors([{ message: "An unknown error occurred" }]);
+          if (!signal.aborted) {
+            setErrors([{ message: "An unknown error occurred" }]);
+            setIsLoading(false);
+          }
         }
-        setIsLoading(false);
       };
       getAllArticles();
     }
@@ -98,46 +114,40 @@ export const Content: Function = ({ type, user, onUpdate }: Props) => {
 
   return (
     <div className="w-full">
-      {loading ? (
-        <Spinner />
+      <div className="xl:columns-2 space-y-4 flex flex-col items-center sm:inline-block">
+        {articles.map((a) => (
+          <ArticleBrief
+            key={a._id}
+            id={a._id}
+            image={a.image}
+            imageAlt={a.imageAlt}
+            title={a.title}
+            textBrief={a.textBrief}
+            author={a.author}
+            authorId={a.authorId}
+            created={a.created}
+            userId={user?._id}
+            saved={user?.saved.includes(a._id)}
+            liked={user?.liked.includes(a._id)}
+            onUpdate={onUpdate}
+          />
+        ))}
+      </div>
+      {isLoading ? (
+        <div className="pt-4">
+          <Spinner />
+        </div>
       ) : errors ? (
         errors.map((e: { message: string }) => (
           <h2 key={uniqid()} className="font-bold text-lg text-gray-400">
             {e.message}
           </h2>
         ))
-      ) : !isRetrievingArticles && articles.length === 0 ? (
+      ) : articles.length === 0 ? (
         <h2 className="font-bold text-lg text-gray-400 w-full text-center">
           Nothing to show
         </h2>
-      ) : (
-        <div>
-          <div className="xl:columns-2 space-y-4 flex flex-col items-center sm:inline-block">
-            {articles.map((a) => (
-              <ArticleBrief
-                key={a._id}
-                id={a._id}
-                image={a.image}
-                imageAlt={a.imageAlt}
-                title={a.title}
-                textBrief={a.textBrief}
-                author={a.author}
-                authorId={a.authorId}
-                created={a.created}
-                userId={user?._id}
-                saved={user?.saved.includes(a._id)}
-                liked={user?.liked.includes(a._id)}
-                onUpdate={onUpdate}
-              />
-            ))}
-          </div>
-          {isRetrievingArticles ? (
-            <div className="w-full flex justify-center pt-4">
-              <Spinner />
-            </div>
-          ) : null}
-        </div>
-      )}
+      ) : null}
     </div>
   );
 };
