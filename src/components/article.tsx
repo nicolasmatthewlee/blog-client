@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Buffer } from "buffer";
 import { Spinner } from "./spinner";
+import { LikeButton } from "./likebutton";
 const uniqid = require("uniqid");
 
 interface Content {
@@ -108,9 +109,6 @@ export const Article = (props: Props) => {
 
   const [loading, setLoading] = useState(true);
 
-  const [liked, setLiked] = useState<Boolean>(
-    articleId ? props.likedList.includes(articleId) : false
-  );
   const [saved, setSaved] = useState<Boolean>(
     articleId ? props.savedList.includes(articleId) : false
   );
@@ -135,29 +133,6 @@ export const Article = (props: Props) => {
       props.onUpdate();
     } catch {
       setSaved(!toStatus); // revert status if not saved
-    }
-  };
-
-  const updateLiked = async (articleId: string, toStatus: Boolean) => {
-    setLiked(toStatus);
-    try {
-      const response = await fetch(
-        `http://127.0.0.1:5000/users/${props.userId}/liked`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({ articleId, toStatus }),
-        }
-      );
-      const json = await response.json();
-      if (json.errors) setLiked(!toStatus); // revert status if not saved
-      else setLiked(json.result);
-      props.onUpdate();
-    } catch {
-      setLiked(!toStatus); // revert status if not saved
     }
   };
 
@@ -190,28 +165,16 @@ export const Article = (props: Props) => {
                   </p>
                   {props.userId ? (
                     <div className="flex space-x-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={2.5}
-                        stroke="currentColor"
-                        className={
-                          liked
-                            ? "w-6 h-6 fill-rose-500 stroke-rose-500 hover:stroke-rose-600 hover:fill-rose-600"
-                            : "w-6 h-6 stroke-gray-300 hover:fill-rose-100 hover:stroke-rose-500 active:fill-rose-500 active:stroke-rose-500"
+                      <LikeButton
+                        onUpdate={props.onUpdate}
+                        articleId={articleId}
+                        isLiked={
+                          articleId
+                            ? props.likedList.includes(articleId)
+                            : false
                         }
-                        onClick={() => {
-                          if (article?._id) updateLiked(article?._id, !liked);
-                        }}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                        />
-                      </svg>
-
+                        userId={props.userId}
+                      />
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
