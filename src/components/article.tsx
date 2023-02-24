@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Buffer } from "buffer";
 import { Spinner } from "./spinner";
 import { LikeButton } from "./likebutton";
+import { SaveButton } from "./savebutton";
 const uniqid = require("uniqid");
 
 interface Content {
@@ -109,33 +110,6 @@ export const Article = (props: Props) => {
 
   const [loading, setLoading] = useState(true);
 
-  const [saved, setSaved] = useState<Boolean>(
-    articleId ? props.savedList.includes(articleId) : false
-  );
-
-  const updateSaved = async (articleId: string, toStatus: Boolean) => {
-    setSaved(toStatus);
-    try {
-      const response = await fetch(
-        `http://127.0.0.1:5000/users/${props.userId}/saved`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({ articleId, toStatus }),
-        }
-      );
-      const json = await response.json();
-      if (json.errors) setSaved(!toStatus); // revert status if not saved
-      else setSaved(json.result);
-      props.onUpdate();
-    } catch {
-      setSaved(!toStatus); // revert status if not saved
-    }
-  };
-
   return (
     <div>
       {loading ? (
@@ -166,36 +140,25 @@ export const Article = (props: Props) => {
                   {props.userId ? (
                     <div className="flex space-x-2">
                       <LikeButton
-                        onUpdate={props.onUpdate}
                         articleId={articleId}
+                        userId={props.userId}
+                        onUpdate={props.onUpdate}
                         isLiked={
                           articleId
                             ? props.likedList.includes(articleId)
                             : false
                         }
-                        userId={props.userId}
                       />
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={2.5}
-                        stroke="currentColor"
-                        className={
-                          saved
-                            ? "w-6 h-6 fill-emerald-500 stroke-emerald-500 hover:stroke-emerald-600 hover:fill-emerald-600"
-                            : "w-6 h-6 stroke-gray-300 hover:fill-emerald-100 hover:stroke-emerald-500 active:fill-emerald-500 active:stroke-emerald-500"
+                      <SaveButton
+                        articleId={articleId}
+                        userId={props.userId}
+                        onUpdate={props.onUpdate}
+                        isSaved={
+                          articleId
+                            ? props.savedList.includes(articleId)
+                            : false
                         }
-                        onClick={() => {
-                          if (article?._id) updateSaved(article?._id, !saved);
-                        }}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
-                        />
-                      </svg>
+                      />
                     </div>
                   ) : null}
                 </div>

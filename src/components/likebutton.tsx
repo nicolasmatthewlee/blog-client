@@ -1,10 +1,10 @@
 import { useState } from "react";
 
 interface Props {
-  onUpdate: Function;
   articleId: string | undefined;
-  isLiked: Boolean;
   userId: string;
+  onUpdate: Function;
+  isLiked: Boolean;
 }
 
 export const LikeButton = ({ onUpdate, articleId, isLiked, userId }: Props) => {
