@@ -25,7 +25,7 @@ export const Content: Function = ({ type, user, onUpdate }: Props) => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setIsLoading] = useState<Boolean>(true);
   const [isRetrievingArticles, setIsRetrievingArticles] =
-    useState<Boolean>(true);
+    useState<Boolean>(false);
 
   useEffect(() => {
     const controller = new AbortController();
