@@ -79,8 +79,9 @@ export const Content: Function = ({ type, user, onUpdate }: Props) => {
                   })
               );
 
-              await Promise.all(allArticleResponses);
-              setIsRetrievingArticles(false);
+              await Promise.allSettled(allArticleResponses).then(() =>
+                setIsRetrievingArticles(false)
+              );
             };
             retrieveArticles();
           }
@@ -110,25 +111,31 @@ export const Content: Function = ({ type, user, onUpdate }: Props) => {
           Nothing to show
         </h2>
       ) : (
-        <div className="xl:columns-2 space-y-4 flex flex-col items-center sm:inline-block">
-          {articles.map((a) => (
-            <ArticleBrief
-              key={a._id}
-              id={a._id}
-              image={a.image}
-              imageAlt={a.imageAlt}
-              title={a.title}
-              textBrief={a.textBrief}
-              author={a.author}
-              authorId={a.authorId}
-              created={a.created}
-              userId={user?._id}
-              saved={user?.saved.includes(a._id)}
-              liked={user?.liked.includes(a._id)}
-              onUpdate={onUpdate}
-            />
-          ))}
-          {isRetrievingArticles ? <Spinner /> : null}
+        <div>
+          <div className="xl:columns-2 space-y-4 flex flex-col items-center sm:inline-block">
+            {articles.map((a) => (
+              <ArticleBrief
+                key={a._id}
+                id={a._id}
+                image={a.image}
+                imageAlt={a.imageAlt}
+                title={a.title}
+                textBrief={a.textBrief}
+                author={a.author}
+                authorId={a.authorId}
+                created={a.created}
+                userId={user?._id}
+                saved={user?.saved.includes(a._id)}
+                liked={user?.liked.includes(a._id)}
+                onUpdate={onUpdate}
+              />
+            ))}
+          </div>
+          {isRetrievingArticles ? (
+            <div className="w-full flex justify-center pt-4">
+              <Spinner />
+            </div>
+          ) : null}
         </div>
       )}
     </div>
