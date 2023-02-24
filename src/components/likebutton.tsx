@@ -2,17 +2,40 @@ import { useState } from "react";
 
 interface Props {
   articleId: string | undefined;
+  authorId: string | undefined;
   userId: string;
   onUpdate: Function;
   isLiked: Boolean;
 }
 
-export const LikeButton = ({ onUpdate, articleId, isLiked, userId }: Props) => {
+export const LikeButton = ({
+  onUpdate,
+  articleId,
+  authorId,
+  isLiked,
+  userId,
+}: Props) => {
   const [liked, setLiked] = useState<Boolean>(isLiked);
 
   const updateLiked = async (articleId: string, toStatus: Boolean) => {
     setLiked(toStatus);
     try {
+      // POST notifications if liking and authorID provided
+      if (toStatus === true && authorId) {
+        fetch(`http://127.0.0.1:5000/users/${authorId}/notifications`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            resource: articleId,
+            userId,
+            event: "like",
+          }),
+        });
+      }
+
       const response = await fetch(
         `http://127.0.0.1:5000/users/${userId}/liked`,
         {

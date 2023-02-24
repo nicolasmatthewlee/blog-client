@@ -19,6 +19,7 @@ interface User {
   _id: string;
   saved: string[];
   liked: string[];
+  notifications: [];
 }
 
 export const PageLayout = ({ type }: Props) => {

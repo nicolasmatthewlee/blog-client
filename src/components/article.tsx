@@ -16,6 +16,7 @@ interface ArticleInterface {
   title: string;
   textBrief: string;
   author: string;
+  authorId?: string;
   created: string;
   image: string;
   content: { type: string; text: string }[];
@@ -141,6 +142,7 @@ export const Article = (props: Props) => {
                     <div className="flex space-x-2">
                       <LikeButton
                         articleId={articleId}
+                        authorId={article?.authorId}
                         userId={props.userId}
                         onUpdate={props.onUpdate}
                         isLiked={

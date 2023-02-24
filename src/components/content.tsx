@@ -14,6 +14,7 @@ interface Article {
   title: string;
   textBrief: string;
   author: string;
+  authorId?: string;
   created: Date;
   image: string;
   imageAlt: string;
@@ -86,6 +87,7 @@ export const Content: Function = ({ type, user, onUpdate }: Props) => {
               title={a.title}
               textBrief={a.textBrief}
               author={a.author}
+              authorId={a.authorId}
               created={a.created}
               userId={user?._id}
               saved={user?.saved.includes(a._id)}
