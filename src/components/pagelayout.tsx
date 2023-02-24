@@ -53,7 +53,7 @@ export const PageLayout = ({ type }: Props) => {
   }, [isFetching, type, user]);
 
   return (
-    <div className="absolute h-full w-full flex overflow-x-hidden">
+    <div className="absolute h-full w-full flex overflow-x-hidden min-h-[500px]">
       {user ? <SideBar /> : null}
       <div className="flex-1 flex flex-col">
         <Header text={type} user={user} />
