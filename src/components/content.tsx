@@ -22,9 +22,14 @@ interface Article {
 
 export const Content: Function = ({ type, user, onUpdate }: Props) => {
   const [errors, setErrors] = useState<any>(null);
-
   const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setIsLoading] = useState<Boolean>(true);
+  const [isRetrievingArticles, setIsRetrievingArticles] =
+    useState<Boolean>(true);
+
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     if (type === "saved") {
       const getSavedArticles = async () => {
         setIsLoading(true);
@@ -52,7 +57,33 @@ export const Content: Function = ({ type, user, onUpdate }: Props) => {
           const response = await fetch("http://127.0.0.1:5000/articles");
           const json = await response.json();
           if (json.errors) setErrors(json.errors);
-          else setArticles(json);
+          else {
+            const articleIds: string[] = json;
+            const retrieveArticles = async () => {
+              setIsRetrievingArticles(true);
+              const allArticleResponses = articleIds.map((id) =>
+                fetch(`http://127.0.0.1:5000/articles/${id}`, {
+                  method: "get",
+                  signal,
+                })
+                  .then((response) => {
+                    return response.json();
+                  })
+                  .then((json) => {
+                    if (json.errors) throw Error();
+                    setArticles((articles) => articles.concat(json));
+                    return true;
+                  })
+                  .catch((err) => {
+                    return "An unknown error occured";
+                  })
+              );
+
+              await Promise.all(allArticleResponses);
+              setIsRetrievingArticles(false);
+            };
+            retrieveArticles();
+          }
         } catch (err) {
           setErrors([{ message: "An unknown error occurred" }]);
         }
@@ -60,9 +91,9 @@ export const Content: Function = ({ type, user, onUpdate }: Props) => {
       };
       getAllArticles();
     }
-  }, [type]);
 
-  const [loading, setIsLoading] = useState<Boolean>(true);
+    return () => controller.abort();
+  }, [type]);
 
   return (
     <div className="w-full">
@@ -74,8 +105,10 @@ export const Content: Function = ({ type, user, onUpdate }: Props) => {
             {e.message}
           </h2>
         ))
-      ) : articles.length === 0 ? (
-        <h2 className="font-bold text-lg text-gray-400">Nothing to show</h2>
+      ) : !isRetrievingArticles && articles.length === 0 ? (
+        <h2 className="font-bold text-lg text-gray-400 w-full text-center">
+          Nothing to show
+        </h2>
       ) : (
         <div className="xl:columns-2 space-y-4">
           {articles.map((a) => (
@@ -95,6 +128,7 @@ export const Content: Function = ({ type, user, onUpdate }: Props) => {
               onUpdate={onUpdate}
             />
           ))}
+          {isRetrievingArticles ? <Spinner /> : null}
         </div>
       )}
     </div>
