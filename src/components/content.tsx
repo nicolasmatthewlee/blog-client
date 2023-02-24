@@ -65,7 +65,7 @@ export const Content: Function = ({ type, user, onUpdate }: Props) => {
   const [loading, setIsLoading] = useState<Boolean>(true);
 
   return (
-    <div>
+    <div className="w-full">
       {loading ? (
         <Spinner />
       ) : errors ? (

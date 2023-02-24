@@ -112,13 +112,13 @@ export const Article = (props: Props) => {
   const [loading, setLoading] = useState(true);
 
   return (
-    <div>
+    <div className="w-full">
       {loading ? (
         <Spinner />
       ) : (
         <div className="flex justify-center">
           <div
-            className="bg-white p-6 rounded-lg space-y-2 shadow max-w-2xl
+            className="bg-white p-6 rounded-lg space-y-2 shadow max-w-2xl w-full
           sm:p-12
           lg:px-16"
           >

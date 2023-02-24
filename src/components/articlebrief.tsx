@@ -57,10 +57,10 @@ export const ArticleBrief: Function = (props: Props) => {
               {props.title}
             </h1>
           </Link>
-
           <p className="line-clamp-2 leading-5 text-gray-500 text">
             {props.textBrief}
           </p>
+
           {/* author */}
           <div className="flex items-center space-x-2 ">
             <h3 className="font-medium text-gray-800">
