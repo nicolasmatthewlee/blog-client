@@ -140,7 +140,6 @@ export const ArticleForm: Function = ({ user }: UserInterface) => {
   >([]);
 
   const handlePublish = async () => {
-    console.log(title, content, user?.username, imageAlt);
     setIsLoading(true);
 
     try {
@@ -156,6 +155,7 @@ export const ArticleForm: Function = ({ user }: UserInterface) => {
           content,
           author: user?.username,
           imageAlt,
+          authorId: user?._id,
         }),
       });
       const json = await response.json();
