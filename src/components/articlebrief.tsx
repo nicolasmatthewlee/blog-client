@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Buffer } from "buffer";
 import { LikeButton } from "./likebutton";
 import { SaveButton } from "./savebutton";
-import { timeSince } from "../timesince";
+import { timeSince } from "./timesince";
 
 interface Props {
   id: string;

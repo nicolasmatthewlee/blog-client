@@ -19,7 +19,6 @@ interface User {
   _id: string;
   saved: string[];
   liked: string[];
-  notifications: [];
 }
 
 export const PageLayout = ({ type }: Props) => {
@@ -51,10 +50,10 @@ export const PageLayout = ({ type }: Props) => {
       )
         navigate("/signin");
     }
-  }, [isFetching, type]);
+  }, [isFetching, type, user]);
 
   return (
-    <div className="absolute h-full w-full flex">
+    <div className="absolute h-full w-full flex overflow-x-hidden">
       {user ? <SideBar /> : null}
       <div className="flex-1 flex flex-col">
         <Header text={type} user={user} />

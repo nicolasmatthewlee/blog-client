@@ -1,4 +1,4 @@
-import { timeSince } from "../timesince";
+import { timeSince } from "./timesince";
 import { Link } from "react-router-dom";
 
 interface Props {

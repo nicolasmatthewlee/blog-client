@@ -30,8 +30,8 @@ export const Header: Function = (props: Props) => {
     sm:h-20"
     >
       {props.text !== undefined ? (
-        <div className="items-center flex-1 pl-6 pr-4 flex">
-          <h1 className="text-4xl font-medium text-gray-400 capitalize">
+        <div className="items-center flex-1 pl-6 pr-4 flex min-w-0">
+          <h1 className="text-4xl font-medium text-gray-400 capitalize truncate">
             {props.text}
           </h1>
         </div>
@@ -71,7 +71,7 @@ export const Header: Function = (props: Props) => {
           {signoutIsLoading ? (
             <button
               disabled
-              className="px-2 py-1 rounded-lg font-medium text-gray-400 flex items-center"
+              className="px-2 py-1 rounded-lg font-medium text-gray-400 flex items-center flex-shrink-0"
             >
               <div className="animate-spin w-3 h-3 bg-gray-400 rounded-full mr-2 relative flex items-center justify-center">
                 <div className={`w-2 h-2 rounded-full absolute bg-white`}></div>
