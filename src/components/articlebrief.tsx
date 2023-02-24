@@ -32,7 +32,7 @@ export const ArticleBrief: Function = (props: Props) => {
 
   return (
     <div
-      className="max-w-sm bg-white shadow rounded
+      className="max-w-sm bg-white shadow rounded w-full
                   sm:max-w-none sm:flex sm:space-x-4 sm:h-48"
     >
       {/* article image */}

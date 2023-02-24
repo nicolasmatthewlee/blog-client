@@ -110,7 +110,7 @@ export const Content: Function = ({ type, user, onUpdate }: Props) => {
           Nothing to show
         </h2>
       ) : (
-        <div className="xl:columns-2 space-y-4">
+        <div className="xl:columns-2 space-y-4 flex flex-col items-center sm:inline-block">
           {articles.map((a) => (
             <ArticleBrief
               key={a._id}
