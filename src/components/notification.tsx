@@ -6,6 +6,7 @@ interface Props {
   event: string;
   time: string;
   resource?: string;
+  resourceId?: string;
 }
 
 export const Notification: Function = ({
@@ -13,6 +14,7 @@ export const Notification: Function = ({
   event,
   time,
   resource,
+  resourceId,
 }: Props) => {
   return (
     <div className="bg-white p-6 rounded-lg shadow max-w-2xl items-center">
@@ -42,7 +44,7 @@ export const Notification: Function = ({
             <span className="font-normal text-gray-500">
               {event === "like" ? " liked your post " : " ? "}
             </span>
-            <Link to={`/articles/${resource}`}>
+            <Link to={`/articles/${resourceId}`}>
               <span
                 className="font-semibold text-gray-800
           hover:underline hover:cursor-pointer"
