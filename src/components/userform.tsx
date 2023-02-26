@@ -29,8 +29,8 @@ export const UserForm: Function = (props: Props) => {
       const submitSigninForm = async () => {
         setIsLoading(true);
         try {
-          const response = await fetch("http://127.0.0.1:5000/signin", {
-            method: "post",
+          const response = await fetch("http://127.0.0.1:5000/users/login", {
+            method: "POST",
             credentials: "include",
             headers: {
               "content-type": "application/json",
@@ -53,7 +53,7 @@ export const UserForm: Function = (props: Props) => {
       const submitSignupForm = async () => {
         setIsLoading(true);
         try {
-          const response = await fetch("http://127.0.0.1:5000/signup", {
+          const response = await fetch("http://127.0.0.1:5000/users", {
             method: "post",
             credentials: "include",
             headers: {

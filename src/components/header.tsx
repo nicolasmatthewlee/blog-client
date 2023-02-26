@@ -14,7 +14,7 @@ export const Header: Function = (props: Props) => {
   const handleSignOut = async () => {
     setSignoutIsLoading(true);
     try {
-      const response = await fetch("http://127.0.0.1:5000/signout", {
+      const response = await fetch("http://127.0.0.1:5000/users/logout", {
         method: "post",
         credentials: "include",
       });
