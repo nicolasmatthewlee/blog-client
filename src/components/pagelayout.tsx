@@ -12,6 +12,7 @@ import { Spinner } from "./spinner";
 
 interface Props {
   type: "write" | "settings" | "saved" | "notifications" | "home" | "article";
+  server: string;
 }
 
 interface User {
@@ -21,7 +22,7 @@ interface User {
   liked: string[];
 }
 
-export const PageLayout = ({ type }: Props) => {
+export const PageLayout = ({ server, type }: Props) => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState<User | null>(null);
@@ -29,7 +30,7 @@ export const PageLayout = ({ type }: Props) => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:5000/users/current", {
+      const response = await fetch(`${server}/users/current`, {
         credentials: "include",
       });
       const json = await response.json();
@@ -56,27 +57,34 @@ export const PageLayout = ({ type }: Props) => {
     <div className="absolute h-full w-full flex overflow-x-hidden min-h-[500px]">
       {user ? <SideBar /> : null}
       <div className="flex-1 flex flex-col">
-        <Header text={type} user={user} />
+        <Header server={server} text={type} user={user} />
         <div className="flex-1 flex overflow-scroll bg-gray-100 justify-center items-start p-4">
           {type === "home" ? (
-            <Content key="home" user={user} onUpdate={fetchUser} />
+            <Content
+              server={server}
+              key="home"
+              user={user}
+              onUpdate={fetchUser}
+            />
           ) : isFetching ? (
             <Spinner />
           ) : type === "write" ? (
-            <ArticleForm user={user} />
+            <ArticleForm server={server} user={user} />
           ) : type === "settings" ? (
-            <Settings user={user} />
+            <Settings server={server} user={user} />
           ) : type === "saved" ? (
             <Content
+              server={server}
               type="saved"
               user={user}
               key="saved"
               onUpdate={fetchUser}
             />
           ) : type === "notifications" ? (
-            <Notifications user={user} />
+            <Notifications server={server} user={user} />
           ) : type === "article" ? (
             <Article
+              server={server}
               likedList={user ? user?.liked : []}
               savedList={user ? user?.saved : []}
               userId={user ? user._id : ""}

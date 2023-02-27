@@ -28,6 +28,7 @@ interface Props {
   likedList: string[];
   userId: string;
   onUpdate: Function;
+  server: string;
 }
 
 export const Article = (props: Props) => {
@@ -37,9 +38,7 @@ export const Article = (props: Props) => {
   useEffect(() => {
     const getArticle = async () => {
       try {
-        const response = await fetch(
-          `http://127.0.0.1:5000/articles/${articleId}`
-        );
+        const response = await fetch(`${props.server}/articles/${articleId}`);
         const json = await response.json();
         setArticle(json);
         setLoading(false);

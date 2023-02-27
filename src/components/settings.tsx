@@ -3,7 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { UserInterface } from "../models/user";
 const uniqid = require("uniqid");
 
-export const Settings: Function = ({ user }: UserInterface) => {
+interface Props {
+  user: UserInterface;
+  server: string;
+}
+
+export const Settings: Function = ({ user, server }: Props) => {
   const navigate = useNavigate();
   const [errors, setErrors] = useState<{ message: string }[]>([]);
   const [isLoading, setIsLoading] = useState<Boolean>(false);
@@ -11,7 +16,7 @@ export const Settings: Function = ({ user }: UserInterface) => {
   const handleDelete = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`http://127.0.0.1:5000/users/${user?._id}`, {
+      const response = await fetch(`${server}/users/${user?._id}`, {
         method: "delete",
         credentials: "include",
       });

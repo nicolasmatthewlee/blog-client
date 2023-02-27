@@ -5,22 +5,32 @@ import { NotFound } from "./components/notfound";
 import { PageLayout } from "./components/pagelayout";
 
 export const App: Function = () => {
+  const server: string = "http://24.199.116.13:5000";
   return (
     <Routes>
       <Route
         path="/articles/:articleId"
-        element={<PageLayout type="article" />}
+        element={<PageLayout server={server} type="article" />}
       />
-      <Route path="/" element={<PageLayout type="home" />} />
+      <Route path="/" element={<PageLayout server={server} type="home" />} />
       <Route
         path="/notifications"
-        element={<PageLayout type="notifications" />}
+        element={<PageLayout server={server} type="notifications" />}
       />
-      <Route path="/saved" element={<PageLayout type="saved" />} />
-      <Route path="/write" element={<PageLayout type="write" />} />
-      <Route path="/settings" element={<PageLayout type="settings" />} />
-      <Route path="/signin" element={<Signin />} />
-      <Route path="signup" element={<Signup />} />
+      <Route
+        path="/saved"
+        element={<PageLayout server={server} type="saved" />}
+      />
+      <Route
+        path="/write"
+        element={<PageLayout server={server} type="write" />}
+      />
+      <Route
+        path="/settings"
+        element={<PageLayout server={server} type="settings" />}
+      />
+      <Route path="/signin" element={<Signin server={server} />} />
+      <Route path="signup" element={<Signup server={server} />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

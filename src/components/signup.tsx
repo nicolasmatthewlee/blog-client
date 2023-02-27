@@ -1,6 +1,10 @@
 import { UserForm } from "./userform";
 
-export const Signup: Function = () => {
+interface Props {
+  server: String;
+}
+
+export const Signup: Function = ({ server }: Props) => {
   return (
     <div className="h-full w-full absolute flex items-center justify-center bg-gray-100">
       <UserForm
@@ -13,6 +17,7 @@ export const Signup: Function = () => {
         footerText="Already have an account? "
         footerLinkText="Sign in"
         footerLinkTo="/signin"
+        server={server}
       />
     </div>
   );

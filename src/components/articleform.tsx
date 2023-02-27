@@ -5,13 +5,18 @@ import { UserInterface } from "../models/user";
 
 const uniqid = require("uniqid");
 
+interface Props {
+  user: UserInterface;
+  server: string;
+}
+
 interface ContentItem {
   type: "header" | "paragraph";
   text: string;
   id: string;
 }
 
-export const ArticleForm: Function = ({ user }: UserInterface) => {
+export const ArticleForm: Function = ({ user, server }: Props) => {
   const navigate = useNavigate();
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<ContentItem[]>([]);
@@ -143,7 +148,7 @@ export const ArticleForm: Function = ({ user }: UserInterface) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/articles", {
+      const response = await fetch(`${server}/articles`, {
         method: "post",
         credentials: "include",
         headers: {

@@ -7,6 +7,7 @@ const uniqid = require("uniqid");
 interface Props extends UserInterface {
   type: undefined | "saved";
   onUpdate: Function;
+  server: String;
 }
 
 interface Article {
@@ -20,7 +21,7 @@ interface Article {
   imageAlt: string;
 }
 
-export const Content: Function = ({ type, user, onUpdate }: Props) => {
+export const Content: Function = ({ server, type, user, onUpdate }: Props) => {
   const [errors, setErrors] = useState<any>(null);
   const [articles, setArticles] = useState<Article[]>([]);
   const [articlesToShow, setArticlesToShow] = useState<string[]>([]);
@@ -33,12 +34,12 @@ export const Content: Function = ({ type, user, onUpdate }: Props) => {
     try {
       const response = before
         ? await fetch(
-            `http://127.0.0.1:5000/articles?` +
+            `${server}/articles?` +
               new URLSearchParams({
                 before: before,
               })
           )
-        : await fetch(`http://127.0.0.1:5000/articles`);
+        : await fetch(`${server}/articles`);
 
       const json = await response.json();
       if (json.errors) setErrors(json.errors);
@@ -61,7 +62,7 @@ export const Content: Function = ({ type, user, onUpdate }: Props) => {
     const retrieveArticles = async () => {
       setIsLoading(true);
       const allArticleResponses = articlesToShow.map((id) =>
-        fetch(`http://127.0.0.1:5000/articles/${id}`, {
+        fetch(`${server}/articles/${id}`, {
           method: "get",
           signal,
         })

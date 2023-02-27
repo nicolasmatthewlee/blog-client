@@ -13,6 +13,7 @@ interface Props {
   footerLinkTo: string;
   buttonColor: string;
   spinnerColor: string;
+  server: string;
 }
 
 export const UserForm: Function = (props: Props) => {
@@ -29,7 +30,7 @@ export const UserForm: Function = (props: Props) => {
       const submitSigninForm = async () => {
         setIsLoading(true);
         try {
-          const response = await fetch("http://127.0.0.1:5000/users/login", {
+          const response = await fetch(`${props.server}/users/login`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -53,7 +54,7 @@ export const UserForm: Function = (props: Props) => {
       const submitSignupForm = async () => {
         setIsLoading(true);
         try {
-          const response = await fetch("http://127.0.0.1:5000/users", {
+          const response = await fetch(`${props.server}/users`, {
             method: "post",
             credentials: "include",
             headers: {

@@ -4,6 +4,7 @@ import { useState } from "react";
 interface Props {
   text: null | string;
   user: null | { username: string };
+  server: string;
 }
 
 export const Header: Function = (props: Props) => {
@@ -14,7 +15,7 @@ export const Header: Function = (props: Props) => {
   const handleSignOut = async () => {
     setSignoutIsLoading(true);
     try {
-      const response = await fetch("http://127.0.0.1:5000/users/logout", {
+      const response = await fetch(`${props.server}/users/logout`, {
         method: "post",
         credentials: "include",
       });

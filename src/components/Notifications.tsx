@@ -5,7 +5,12 @@ import { useState, useEffect } from "react";
 import { Spinner } from "./spinner";
 const uniqid = require("uniqid");
 
-export const Notifications: Function = ({ user }: UserInterface) => {
+interface Props {
+  user: UserInterface;
+  server: string;
+}
+
+export const Notifications: Function = ({ user, server }: Props) => {
   const [isLoading, setIsLoading] = useState<Boolean>();
   const [notifications, setNotifications] = useState<NotificationInterface[]>(
     []
@@ -17,7 +22,7 @@ export const Notifications: Function = ({ user }: UserInterface) => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `http://127.0.0.1:5000/users/${user?._id}/notifications`,
+          `${server}/users/${user?._id}/notifications`,
           { credentials: "include" }
         );
         const json = await response.json();
