@@ -2,7 +2,7 @@
   "name": "blog-client",
   "version": "0.1.0",
   "private": true,
-  "homepage":"https://nicolasmatthewlee.github.io/blog-client",
+  "homepage":"https://nicolasmatthewlee.github.io/blog-client/#",
   "dependencies": {
     "@tailwindcss/line-clamp": "^0.4.2",
     "@testing-library/jest-dom": "^5.16.5",
