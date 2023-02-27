@@ -4,7 +4,7 @@ import { UserInterface } from "../models/user";
 const uniqid = require("uniqid");
 
 interface Props {
-  user: UserInterface;
+  user: UserInterface["user"];
   server: string;
 }
 

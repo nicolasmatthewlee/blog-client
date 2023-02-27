@@ -6,7 +6,7 @@ import { Spinner } from "./spinner";
 const uniqid = require("uniqid");
 
 interface Props {
-  user: UserInterface;
+  user: UserInterface["user"];
   server: string;
 }
 
