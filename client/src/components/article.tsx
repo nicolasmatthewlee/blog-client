@@ -140,6 +140,7 @@ export const Article = (props: Props) => {
                   {props.userId ? (
                     <div className="flex space-x-2">
                       <LikeButton
+                        server={props.server}
                         articleId={articleId}
                         authorId={article?.authorId}
                         userId={props.userId}
@@ -151,6 +152,7 @@ export const Article = (props: Props) => {
                         }
                       />
                       <SaveButton
+                        server={props.server}
                         articleId={articleId}
                         userId={props.userId}
                         onUpdate={props.onUpdate}

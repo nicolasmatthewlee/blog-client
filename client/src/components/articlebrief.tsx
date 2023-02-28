@@ -18,6 +18,7 @@ interface Props {
   liked: Boolean;
   userId: string;
   onUpdate: Function;
+  server: string;
 }
 
 export const ArticleBrief: Function = (props: Props) => {
@@ -76,6 +77,7 @@ export const ArticleBrief: Function = (props: Props) => {
           {props.userId ? (
             <div className="flex space-x-2">
               <LikeButton
+                server={props.server}
                 articleId={props.id}
                 authorId={props.authorId}
                 userId={props.userId}
@@ -84,6 +86,7 @@ export const ArticleBrief: Function = (props: Props) => {
               />
 
               <SaveButton
+                server={props.server}
                 articleId={props.id}
                 userId={props.userId}
                 onUpdate={props.onUpdate}

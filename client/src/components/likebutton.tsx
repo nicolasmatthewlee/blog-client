@@ -6,6 +6,7 @@ interface Props {
   userId: string;
   onUpdate: Function;
   isLiked: Boolean;
+  server: String;
 }
 
 export const LikeButton = ({
@@ -14,6 +15,7 @@ export const LikeButton = ({
   authorId,
   isLiked,
   userId,
+  server,
 }: Props) => {
   const [liked, setLiked] = useState<Boolean>(isLiked);
 
@@ -22,7 +24,7 @@ export const LikeButton = ({
     try {
       // POST notifications if liking and authorID provided
       if (toStatus === true && authorId) {
-        fetch(`http://127.0.0.1:5000/users/${authorId}/notifications`, {
+        fetch(`${server}/users/${authorId}/notifications`, {
           method: "POST",
           credentials: "include",
           headers: {
@@ -36,17 +38,14 @@ export const LikeButton = ({
         });
       }
 
-      const response = await fetch(
-        `http://127.0.0.1:5000/users/${userId}/liked`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({ articleId, toStatus }),
-        }
-      );
+      const response = await fetch(`${server}/users/${userId}/liked`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ articleId, toStatus }),
+      });
       const json = await response.json();
       if (json.errors) setLiked(!toStatus); // revert status if not saved
       else setLiked(json.result);

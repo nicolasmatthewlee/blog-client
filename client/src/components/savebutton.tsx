@@ -5,25 +5,29 @@ interface Props {
   userId: string;
   onUpdate: Function;
   isSaved: Boolean;
+  server: string;
 }
 
-export const SaveButton = ({ articleId, userId, onUpdate, isSaved }: Props) => {
+export const SaveButton = ({
+  articleId,
+  userId,
+  onUpdate,
+  isSaved,
+  server,
+}: Props) => {
   const [saved, setSaved] = useState<Boolean>(isSaved);
 
   const updateSaved = async (articleId: string, toStatus: Boolean) => {
     setSaved(toStatus);
     try {
-      const response = await fetch(
-        `http://127.0.0.1:5000/users/${userId}/saved`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({ articleId, toStatus }),
-        }
-      );
+      const response = await fetch(`${server}/users/${userId}/saved`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ articleId, toStatus }),
+      });
       const json = await response.json();
       if (json.errors) setSaved(!toStatus); // revert status if not saved
       else setSaved(json.result);

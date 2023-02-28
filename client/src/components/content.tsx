@@ -108,6 +108,7 @@ export const Content: Function = ({ server, type, user, onUpdate }: Props) => {
               saved={user?.saved.includes(a._id)}
               liked={user?.liked.includes(a._id)}
               onUpdate={onUpdate}
+              server={server}
             />
           ))}
         </div>
